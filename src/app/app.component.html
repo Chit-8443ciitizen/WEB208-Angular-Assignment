@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="caption">
+    <h4>Thông tin sinh viên</h4>
+    <img src="{{ student.anh }}" alt="" />
+  </div>
+  <ul>
+    <li><span>Họ Tên : </span>{{student.hoten}}</li>
+    <li><span>Ngày Sinh : </span>{{student.ngaysinh}}</li>
+    <li><span>Giới Tính : </span>{{student.gioitinh}}</li>
+    <li><span>Điểm Trung Bình : </span>{{student.diemTB}}</li>
+  </ul>
+</div>
+
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Year Born</th>
+        <th>Year Passed</th>
+      </tr>
+    </thead>
+    <tbody id="inventor">
+    </tbody>
+  </table>
+  <button (click)="render(show)">Render Inventors</button>
+</div>
+
+
+
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Year Born</th>
+        <th>Year Passed</th>
+      </tr>
+    </thead>
+    <tbody id="products">
+    </tbody>
+  </table>
+  <button (click)="renderbai4(showbai4)">Render Products</button>
+</div>
