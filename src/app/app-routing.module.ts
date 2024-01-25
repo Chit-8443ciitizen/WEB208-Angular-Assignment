@@ -9,7 +9,7 @@ import { CreateTaskComponent } from './common/create-task/create-task.component'
 
 
 const routes: Routes = [
-  {path:'', component:CreateTaskComponent},
+  {path:'', component:LeaderComponent},
   {path:'header', component:HeaderComponent},
   {path:'login', component:LoginComponent},
   {path:'error', component:ErrorComponent},
