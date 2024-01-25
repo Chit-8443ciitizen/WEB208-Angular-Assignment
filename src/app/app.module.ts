@@ -7,13 +7,23 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './common/header/header.component';
 import { LoginComponent } from './common/login/login.component';
 import { ErrorComponent } from './common/error/error.component';
-import { DashboardComponent } from './common/dashboard/dashboard.component';
+import { LeaderComponent } from './common/leader/leader.component';
+import { DashboardRightComponent } from './common/dashboard/dashboard-right/dashboard-right.component';
+import { DashboardLeftComponent } from './common/dashboard/dashboard-left/dashboard-left.component';
+import { DashboardMidComponent } from './common/dashboard/dashboard-mid/dashboard-mid.component';
+import { CreateProjectComponent } from './common/create_project/create_project.component';
+import { CreateTaskComponent } from './common/create-task/create-task.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent, HeaderComponent, LoginComponent, ErrorComponent, DashboardComponent
+    AppComponent, 
+    LoginComponent, ErrorComponent, CreateProjectComponent, CreateTaskComponent,
+     
+    HeaderComponent, LeaderComponent, DashboardRightComponent, DashboardLeftComponent, DashboardMidComponent, 
+    
+
   ],
   imports: [
     BrowserModule,

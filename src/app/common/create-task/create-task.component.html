@@ -1,0 +1,77 @@
+<app-header></app-header>
+<div class="container mt-3">
+    <div class="mb-3">
+        <button class="btn btn-outline-primary" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" />
+                </svg>
+                Back</button>
+    </div>
+    <form class="was-validated">
+        <div class="mb-3">
+            <label for="inputTaskName" class="form-label">Task Name</label>
+            <input type="text" class="form-control" id="inputTaskName" aria-label="task name"
+                placeholder="Required task name" required>
+            <div class="invalid-feedback">Please enter a task name</div>
+        </div>
+        <div class="mb-3">
+            <label for="inputDescription" class="form-label">Task Description</label>
+            <textarea class="form-control" id="inputDescription" placeholder="Required task description"
+                aria-label="task description" required></textarea>
+            <div class="invalid-feedback">
+                Please enter a task description in the textarea.
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-6">
+                <label class="form-check-label" for="select project">Project</label>
+                <select class="form-select" required aria-label="select project">
+                    <option value="">Open this list project</option>
+                    <option value="1">Management student</option>
+                    <option value="2">Management hotel</option>
+                    <option value="3">Management Campus</option>
+                </select>
+                <div class="invalid-feedback">Invalid select</div>
+            </div>
+            <div class="col-6">
+                <label class="form-check-label" for="select priority">Priority</label>
+                <select class="form-select" required aria-label="select priority">
+                    <option value="">Open this list priority</option>
+                    <option value="important">Important</option>
+                    <option value="high">High</option>
+                    <option value="middle">Middle</option>
+                    <option value="lower">Lower</option>
+                </select>
+                <div class="invalid-feedback">Invalid select</div>
+            </div>
+            <div class="col-6">
+                <label class="form-check-label" for="select priority">Assigned to</label>
+                <select class="form-select" required aria-label="select priority">
+                    <option value="">Open this list assignee</option>
+                    <option value="Teo">Teo</option>
+                    <option value="Ti">Ti</option>
+                    <option value="Tun">Tun</option>
+                    <option value="Bo">Bo</option>
+                </select>
+                <div class="invalid-feedback">Invalid select</div>
+            </div>
+            <div class="col-6">
+                <label class="form-check-label" for="inputTaskStatus">Status</label>
+                <input type="text" class="form-control" id="inputTaskStatus" aria-label="task status"
+                    placeholder="Running" disabled style="font-weight: 700;">
+                <div class="invalid-feedback">Invalid select</div>
+            </div>
+        </div>
+        <div class="mb-3 text-center">
+            <button class="btn btn-success" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+        </svg>
+        Create Task</button>
+        </div>
+    </form>
+</div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -8,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  getFormattedTime(): string{
+    const currentDate = new Date();
+    const formattedDate = formatDate(currentDate, 'dd/MM/yyyy HH:mm', 'en-US');
+    return formattedDate;
+  }
 }

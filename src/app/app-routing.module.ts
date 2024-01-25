@@ -3,15 +3,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './common/header/header.component';
 import { LoginComponent } from './common/login/login.component';
 import { ErrorComponent } from './common/error/error.component';
-import { DashboardComponent } from './common/dashboard/dashboard.component';
+import { LeaderComponent } from './common/leader/leader.component';
+import { CreateProjectComponent } from './common/create_project/create_project.component';
+import { CreateTaskComponent } from './common/create-task/create-task.component';
 
 
 const routes: Routes = [
-  {path:'', component:HeaderComponent},
+  {path:'', component:CreateTaskComponent},
   {path:'header', component:HeaderComponent},
   {path:'login', component:LoginComponent},
   {path:'error', component:ErrorComponent},
-  {path:'dashboard', component:DashboardComponent},
+  {path:'leader', component:LeaderComponent},
+  {path:'create_project', component:CreateProjectComponent},
+  {path:'create_task', component:CreateTaskComponent},
 ];
 
 @NgModule({
