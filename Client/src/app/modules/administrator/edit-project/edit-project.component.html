@@ -1,0 +1,59 @@
+<div class="modal fade" id="editProject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-capitalize" id="exampleModalLabel">Edit project</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table text-capitalize">
+            <tr>
+              <td class="col-4 mb-3 ">Project ID</td>
+              <td class="col">
+                <input id="project_id" class="p-0 mb-3" type="number" placeholder="A01" disabled>
+              </td>
+            </tr>
+            <tr >
+              <td class="col-4 mb-3  ">Project Name</td>
+              <td class="col">
+                <input id="project_name" class="p-0 mb-3" type="text" disabled placeholder="Management student">
+              </td>
+            </tr>
+            <tr >
+              <td class="col-4 mb-3  ">Leader Name</td> <!-- nhập tên sẽ gợi ý employee_id rồi chọn -->
+              <td class="col">
+                <input id="leader_name" class="p-0 mb-3" type="text" placeholder="Teo" disabled>
+              </td>
+            </tr>
+            <tr >
+              <td class="col-4 mb-3  ">Leader Name New</td> <!-- nhập tên sẽ gợi ý employee_id rồi chọn -->
+              <td class="col">
+                <input id="leader_name_new" class="p-0 mb-3" type="text" placeholder="Leader Name New" >
+              </td>
+            </tr>
+            <tr >
+              <td class="col-4 mb-3 ">Date of start</td>
+              <td class="col">
+                <input id="date_start" class="p-0 mb-3" type="text" placeholder="24/12/2023 15:30" disabled>
+              </td>
+            </tr>
+            <tr >
+              <td class="col-4 mb-3 ">Date of end</td>
+              <td class="col">
+                <input id="date_end" class="p-0 mb-3" type="datetime-local">
+              </td>
+            </tr>
+            <tr >
+              <td class="col-4 mb-3">time size</td>
+              <td class="col">
+                <input id="team_size" class="p-0 mb-3" type="number">
+              </td>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancle</button>
+          <button type="button" class="btn btn-success">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>

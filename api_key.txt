@@ -1,0 +1,16 @@
+Yn0zHwqzRf8bYe8bSDot9WdiOzuxYsTJrcQhhNm72ISiazFZWalb5OaYoXcUV7tj
+/////////////
+curl --location --request POST 'https://ap-southeast-1.aws.data.mongodb-api.com/app/data-wwrwc/endpoint/data/v1/action/findOne' \
+--header 'Content-Type: application/json' \
+--header 'Access-Control-Request-Headers: *' \
+--header 'api-key: Yn0zHwqzRf8bYe8bSDot9WdiOzuxYsTJrcQhhNm72ISiazFZWalb5OaYoXcUV7tj' \
+--data-raw '{
+    "collection":"images",
+    "database":"game_pokemon",
+    "dataSource":"AtlasCluster",
+    "projection": {"_id": 1}
+}'
+
+//////////////////
+urlEndPoint:
+https://ap-southeast-1.aws.data.mongodb-api.com/app/data-wwrwc/endpoint/data/v1
