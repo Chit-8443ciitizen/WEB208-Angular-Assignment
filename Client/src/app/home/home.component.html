@@ -1,0 +1,463 @@
+<app-header></app-header>
+<div class="container-fluid">
+  <div class="row">
+    <app-sidebar></app-sidebar>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <!-- Start -->
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group ml-2">
+            <button type="button" class="btn btn-outline-secondary">
+              Share
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+              Export
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row bg-secondary bg-gradient mt-4 px-2 py-3">
+        <div class="col-md-3 col-sm-6 text-center">
+          <h6 class="text-white">TRƯỞNG NHÓM</h6>
+          <img
+            class="rounded-circle w-25"
+            [src]="'https://ui-avatars.com/api/name=' + username"
+            alt=""
+          />
+          <p class="fw-bold text-white pt-2">{{username}}</p>
+          <div *ngIf="loading" class="text-center">
+            <div class="spinner-border text-light" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div *ngIf="!loading">
+            <ul class="list-group">
+              <h6 class="text-white py-2">
+                # Thông Tin Dự Án [
+                <span
+                  class="text-info"
+                  *ngIf="
+                    listIDProject &&
+                    listIDProject.projectTasks.idProject.nameProject !==
+                      undefined
+                  "
+                  >{{ listIDProject.projectTasks.idProject.nameProject }}</span
+                >
+                ]
+              </h6>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                Số Lượng Thành Viên Dự Án
+                <span
+                  class="badge bg-primary  text-white"
+                  *ngIf="
+                    listIDProject && listIDProject.totalUsers !== undefined
+                  "
+                >
+                  {{ listIDProject.totalUsers }}
+                </span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                Tổng Chi Phí Của Dự Án
+                <span
+                  class="badge bg-primary  text-white"
+                  *ngIf="listIDProject && listIDProject.projectTasks"
+                >
+                  {{ listIDProject.projectTasks.idProject.budget | currency }}
+                </span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+                *ngIf="listIDProject && listIDProject.processingTasks"
+              >
+                Các Task Đang Xử Lý Dự Án
+                <span class="badge bg-primary  text-white">{{
+                  listIDProject.processingTasks
+                }}</span>
+              </li>
+
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+                *ngIf="listIDProject && listIDProject.processingTasks"
+              >
+                Các Task Đã Hoàn Thành Dự Án
+                <span
+                  class="badge bg-primary  text-white"
+                  *ngIf="
+                    listIDProject && listIDProject.completeTasks !== undefined
+                  "
+                  >{{ listIDProject.completeTasks }}</span
+                >
+              </li>
+            </ul>
+          </div>
+          <p class="mt-3 text-white fw-bold">KHÁCH HÀNG</p>
+          <ul class="list-group">
+            <li class="list-group-item">ABC Cake Ltd.</li>
+            <li class="list-group-item">DEF Software Solutio</li>
+            <li class="list-group-item">GHI Industries</li>
+          </ul>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="d-flex justify-content-between">
+            <!-- <span>{{listAllProjects}}</span> -->
+            <select
+              class="form-control w-auto"
+              aria-label="Default select example"
+              (change)="onProjectChange($event)"
+            >
+              <option
+                *ngFor="let project of listAllProjects"
+                [value]="project._id"
+              >
+                {{ project.nameProject }}
+              </option>
+            </select>
+
+            <select
+              class="form-control w-auto"
+              aria-label="Default select example"
+            >
+              <option
+                *ngFor="let project of listAllProjects"
+                value="{{ project._id }}"
+              >
+                {{ project.dateOfStart }}
+              </option>
+            </select>
+          </div>
+          <div class="mt-4 bg-light px-2 py-2">
+            <div class="mb-5">
+              <h6 class="text-center bg-gradient bg-dark text-white py-2">
+                TỔNG THỂ VỀ DỰ ÁN
+              </h6>
+              <div *ngIf="loading" class="text-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+              <div *ngIf="!loading">
+                <table class="table caption-top">
+                  <tbody>
+                    <tr>
+                      <td>Chi Phí Dự Án</td>
+                      <td
+                        *ngIf="
+                          listIDProject &&
+                          listIDProject.projectTasks !== undefined
+                        "
+                      >
+                        {{
+                          listIDProject.projectTasks.idProject.budget | currency
+                        }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Hiện Tại Đã Chi</td>
+                      <td
+                        *ngIf="
+                          listIDProject &&
+                          listIDProject.projectTasks !== undefined
+                        "
+                      >
+                        {{
+                          listIDProject.projectTasks.idProject.expense
+                            | currency
+                        }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Còn Lại</td>
+                      <td
+                        *ngIf="
+                          listIDProject &&
+                          listIDProject.projectTasks &&
+                          listIDProject.projectTasks.idProject.budget !==
+                            undefined &&
+                          listIDProject.projectTasks.idProject.expense !==
+                            undefined
+                        "
+                      >
+                        {{
+                          listIDProject.projectTasks.idProject.budget -
+                            listIDProject.projectTasks.idProject.expense
+                            | currency
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="mb-5">
+              <h6 class="text-center bg-gradient bg-dark text-white py-2">
+                THÀNH VIÊN CỦA NHÓM
+              </h6>
+
+              <div *ngIf="loading" class="text-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+
+              <div *ngIf="!loading">
+                <table class="table caption-top">
+                  <thead>
+                    <tr>
+                      <th scope="col">Khu vực</th>
+                      <th scope="col">Số lượng nhân viên</th>
+                      <th scope="col">Nhân viên tạm nghỉ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let area of areaCounts | keyvalue">
+                      <th scope="row">{{ area.key }}</th>
+                      <td>{{ area.value }}</td>
+                      <td>{{ getOnLeaveEmployees(area.key) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="bg-light">
+            <h6 class="text-center bg-dark bg-gradient text-white py-2">
+              THÀNH VIÊN THEO KHU VỰC
+            </h6>
+            <div *ngIf="loading" class="text-center">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <div *ngIf="!loading">
+              <div id="accordion">
+                <div class="huyit">
+                  <div id="headingOne">
+                    <button
+                      class="btn w-100"
+                      data-toggle="collapse"
+                      data-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      East
+                    </button>
+                  </div>
+                  <div
+                    id="collapseOne"
+                    class="collapse show"
+                    aria-labelledby="headingOne"
+                    data-parent="#accordion"
+                  >
+                    <div>
+                      <table class="table-area">
+                        <tbody>
+                          <ng-container
+                            *ngIf="
+                              filterMembersEast && filterMembersEast.length > 0;
+                              else noData
+                            "
+                          >
+                            <tr *ngFor="let huydev of filterMembersEast">
+                              <th class="bg-info text-center text-white px-2">#</th>
+                              <td>{{ huydev.username }}</td>
+                            </tr>
+                          </ng-container>
+                          <ng-template #noData>
+                            <tr class="text-center">
+                              <td colspan="1">Empty data ...</td>
+                            </tr>
+                          </ng-template>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="huyit">
+                  <div id="headingTwo">
+                    <button
+                      class="btn w-100 collapsed"
+                      data-toggle="collapse"
+                      data-target="#collapseTwo"
+                      aria-expanded="false"
+                      aria-controls="collapseTwo"
+                    >
+                      West
+                    </button>
+                  </div>
+                  <div
+                    id="collapseTwo"
+                    class="collapse"
+                    aria-labelledby="headingTwo"
+                    data-parent="#accordion"
+                  >
+                    <div>
+                      <table class="table-area">
+                        <tbody>
+                          <ng-container
+                            *ngIf="
+                              filterMembersWest && filterMembersWest.length > 0;
+                              else noData
+                            "
+                          >
+                            <tr *ngFor="let huydev of filterMembersWest">
+                              <th class="bg-info text-center text-white px-2" >#</th>
+                              <td>{{ huydev.username }}</td>
+                            </tr>
+                          </ng-container>
+                          <ng-template #noData>
+                            <tr class="text-center">
+                              <td colspan="1">Empty data ...</td>
+                            </tr>
+                          </ng-template>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="huyit">
+                  <div id="headingThree">
+                    <button
+                      class="btn w-100 collapsed"
+                      data-toggle="collapse"
+                      data-target="#collapseThree"
+                      aria-expanded="false"
+                      aria-controls="collapseThree"
+                    >
+                      South
+                    </button>
+                  </div>
+                  <div
+                    id="collapseThree"
+                    class="collapse"
+                    aria-labelledby="headingThree"
+                    data-parent="#accordion"
+                  >
+                    <div>
+                      <table class="table-area">
+                        <tbody>
+                          <ng-container
+                            *ngIf="
+                              filterMembersSouth &&
+                                filterMembersSouth.length > 0;
+                              else noData
+                            "
+                          >
+                            <tr *ngFor="let huydev of filterMembersSouth">
+                              <th class="bg-info text-center text-white px-2">#</th>
+                              <td>{{ huydev.username }}</td>
+                            </tr>
+                          </ng-container>
+                          <ng-template #noData>
+                            <tr class="text-center">
+                              <td colspan="1">Empty data ...</td>
+                            </tr>
+                          </ng-template>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="huyit">
+                  <div id="headingFour">
+                    <button
+                      class="btn w-100 collapsed"
+                      data-toggle="collapse"
+                      data-target="#collapseFour"
+                      aria-expanded="false"
+                      aria-controls="collapseFour"
+                    >
+                      North
+                    </button>
+                  </div>
+                  <div
+                    id="collapseFour"
+                    class="collapse"
+                    aria-labelledby="headingFour"
+                    data-parent="#accordion"
+                  >
+                    <div>
+                      <table class="table-area">
+                        <tbody>
+                          <ng-container
+                            *ngIf="
+                              filterMembersNorth &&
+                                filterMembersNorth.length > 0;
+                              else noData
+                            "
+                          >
+                            <tr *ngFor="let huydev of filterMembersNorth">
+                              <th class="bg-info text-center text-white px-2">#</th>
+                              <td>{{ huydev.username }}</td>
+                            </tr>
+                          </ng-container>
+                          <ng-template #noData>
+                            <tr class="text-center">
+                              <td colspan="1">Empty data ...</td>
+                            </tr>
+                          </ng-template>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h6 class="text-white py-2 mt-2"># Thông Tin Tất Cả Các Dự Án</h6>
+          <div *ngIf="loading" class="text-center">
+            <div class="spinner-border text-light" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div *ngIf="!loading">
+            <ul class="list-group">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                Tổng Số Lượng Thành Viên
+                <span class="badge bg-primary text-white">
+                  {{ totalAllUsers }}
+                </span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                Tổng Chi Phí Của Dự Án
+                <span class="badge bg-primary  text-white">
+                  {{ totalReducerProject | currency }}
+                </span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                Các Task Đang Xử Lý
+                <span class="badge bg-primary  text-white">{{
+                  lengthTaskProcessing
+                }}</span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                Các Dự Án Đang Triển Khai
+                <span class="badge bg-primary  text-white">{{
+                  lengthProjectDeployment
+                }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- end -->
+    </main>
+  </div>
+</div>

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Lab02": {
+    "Asm-Angular": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Lab02",
+            "outputPath": "dist/asm-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -25,13 +25,10 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+              "node_modules/ngx-toastr/toastr.css",
+              "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/@fortawesome/fontawesome-free/js/all.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -64,10 +61,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Lab02:build:production"
+              "browserTarget": "Asm-Angular:build:production"
             },
             "development": {
-              "browserTarget": "Lab02:build:development"
+              "browserTarget": "Asm-Angular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +72,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Lab02:build"
+            "browserTarget": "Asm-Angular:build"
           }
         },
         "test": {
@@ -100,6 +97,6 @@
     }
   },
   "cli": {
-    "analytics": "ebacd881-d921-4b3f-9092-9ab59934b174"
+    "analytics": "6ca48ad0-5076-4898-a309-67e5ad2b9228"
   }
 }
