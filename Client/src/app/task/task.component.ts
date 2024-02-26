@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../services/project.service';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr'; //
 import { TaskService } from '../services/task.service';
 import { AuthService } from '../services/auth.service';
 import { environment } from 'src/environments/environment';
@@ -132,7 +132,7 @@ export class TaskComponent implements OnInit {
     );
   }
 
-  saveTask(create: boolean, edit: boolean, huydev: any) {
+  saveTask(create: boolean, edit: boolean, task: any) {
     if (create) {
       const data = {
         idProject: this.idProject,
@@ -156,16 +156,16 @@ export class TaskComponent implements OnInit {
           console.log(error);
         }
       );
-    } else if (edit && huydev) {
+    } else if (edit && task) {
       const data = {
-        idProject: huydev.idProject._id,
-        taskName: huydev.taskName,
-        description: huydev.description,
-        assignedTo: huydev.assignedTo,
-        priority: huydev.priority,
-        status: huydev.status,
+        idProject: task.idProject._id,
+        taskName: task.taskName,
+        description: task.description,
+        assignedTo: task.assignedTo,
+        priority: task.priority,
+        status: task.status,
       };
-      this.taskService.update(huydev._id, data).subscribe(
+      this.taskService.update(task._id, data).subscribe(
         (response) => {
           if (response.status === true) {
             this.toastr.success(`${response.message}`, 'Success');

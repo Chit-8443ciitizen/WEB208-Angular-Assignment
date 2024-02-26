@@ -44,12 +44,12 @@ export class UserComponent implements OnInit {
     );
   }
 
-  updateUser(huydev: any) {
+  updateUser(user: any) {
     const data = {
-      status: huydev.status,
-      level: huydev.level,
+      status: user.status,
+      level: user.level,
     };
-    this.userService.update(huydev._id, data).subscribe(
+    this.userService.update(user._id, data).subscribe(
       (response) => {
         if (response.status === true) {
           this.toastr.success(`${response.message}`, 'Success');

@@ -1,12 +1,36 @@
 const Area = require("../models/Area");
 
+// exports.addArea = (req, res, next) => {
+//   const { nameArea, createdAt } = req.body;
+//   if (nameArea == "" && createdAt == "") {
+//     res.status(200).json({ status: false, message: "Không Được Để Trống" });
+//   } else {
+//     const area = new Area({
+//       nameArea, createdAt
+//     });
+//     area
+//       .save()
+//       .then((result) => {
+//         res.status(201).json({
+//           status: true,
+//           message: "Thêm Area Thành Công",
+//         });
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }
+// };
+
 exports.addArea = (req, res, next) => {
-  const { nameArea } = req.body;
-  if (nameArea == "") {
+  const { nameArea} = req.body; // , createdAt 
+
+  if (nameArea === "" ) { // && createdAt === ""
     res.status(200).json({ status: false, message: "Không Được Để Trống" });
   } else {
     const area = new Area({
       nameArea,
+      // createdAt
     });
     area
       .save()
@@ -40,7 +64,7 @@ exports.getAreas = async (req, res, next) => {
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error getAreas" });
     }
   } else {
     const areas = await Area.find({});
@@ -50,11 +74,12 @@ exports.getAreas = async (req, res, next) => {
 
 exports.putArea = async (req, res, next) => {
   const _id = req.params.id;
-  const { nameArea } = req.body;
+  const { nameArea, createdAt } = req.body;
   Area.findById(_id)
-    .then((huyit) => {
-      huyit.nameArea = nameArea;
-      return huyit.save();
+    .then((area) => {
+      area.nameArea = nameArea;
+      area.createdAt = createdAt;
+      return area.save();
     })
     .then((result) => {
       res.status(200).json({

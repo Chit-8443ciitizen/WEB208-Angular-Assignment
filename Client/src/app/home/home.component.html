@@ -5,8 +5,7 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <!-- Start -->
       <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-      >
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group ml-2">
@@ -22,11 +21,7 @@
       <div class="row bg-secondary bg-gradient mt-4 px-2 py-3">
         <div class="col-md-3 col-sm-6 text-center">
           <h6 class="text-white">TRƯỞNG NHÓM</h6>
-          <img
-            class="rounded-circle w-25"
-            [src]="'https://ui-avatars.com/api/name=' + username"
-            alt=""
-          />
+          <img class="rounded-circle w-25" [src]="'https://ui-avatars.com/api/name=' + username" alt="" />
           <p class="fw-bold text-white pt-2">{{username}}</p>
           <div *ngIf="loading" class="text-center">
             <div class="spinner-border text-light" role="status">
@@ -37,63 +32,41 @@
             <ul class="list-group">
               <h6 class="text-white py-2">
                 # Thông Tin Dự Án [
-                <span
-                  class="text-info"
-                  *ngIf="
+                <span class="text-info" *ngIf="
                     listIDProject &&
                     listIDProject.projectTasks.idProject.nameProject !==
                       undefined
-                  "
-                  >{{ listIDProject.projectTasks.idProject.nameProject }}</span
-                >
+                  ">{{ listIDProject.projectTasks.idProject.nameProject }}</span>
                 ]
               </h6>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center">
                 Số Lượng Thành Viên Dự Án
-                <span
-                  class="badge bg-primary  text-white"
-                  *ngIf="
+                <span class="badge bg-primary  text-white" *ngIf="
                     listIDProject && listIDProject.totalUsers !== undefined
-                  "
-                >
+                  ">
                   {{ listIDProject.totalUsers }}
                 </span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center">
                 Tổng Chi Phí Của Dự Án
-                <span
-                  class="badge bg-primary  text-white"
-                  *ngIf="listIDProject && listIDProject.projectTasks"
-                >
+                <span class="badge bg-primary  text-white" *ngIf="listIDProject && listIDProject.projectTasks">
                   {{ listIDProject.projectTasks.idProject.budget | currency }}
                 </span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-                *ngIf="listIDProject && listIDProject.processingTasks"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center"
+                *ngIf="listIDProject && listIDProject.processingTasks">
                 Các Task Đang Xử Lý Dự Án
                 <span class="badge bg-primary  text-white">{{
                   listIDProject.processingTasks
-                }}</span>
+                  }}</span>
               </li>
 
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-                *ngIf="listIDProject && listIDProject.processingTasks"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center"
+                *ngIf="listIDProject && listIDProject.processingTasks">
                 Các Task Đã Hoàn Thành Dự Án
-                <span
-                  class="badge bg-primary  text-white"
-                  *ngIf="
+                <span class="badge bg-primary  text-white" *ngIf="
                     listIDProject && listIDProject.completeTasks !== undefined
-                  "
-                  >{{ listIDProject.completeTasks }}</span
-                >
+                  ">{{ listIDProject.completeTasks }}</span>
               </li>
             </ul>
           </div>
@@ -107,27 +80,14 @@
         <div class="col-md-6 col-sm-12">
           <div class="d-flex justify-content-between">
             <!-- <span>{{listAllProjects}}</span> -->
-            <select
-              class="form-control w-auto"
-              aria-label="Default select example"
-              (change)="onProjectChange($event)"
-            >
-              <option
-                *ngFor="let project of listAllProjects"
-                [value]="project._id"
-              >
+            <select class="form-control w-auto" aria-label="Default select example" (change)="onProjectChange($event)">
+              <option *ngFor="let project of listAllProjects" [value]="project._id">
                 {{ project.nameProject }}
               </option>
             </select>
 
-            <select
-              class="form-control w-auto"
-              aria-label="Default select example"
-            >
-              <option
-                *ngFor="let project of listAllProjects"
-                value="{{ project._id }}"
-              >
+            <select class="form-control w-auto" aria-label="Default select example">
+              <option *ngFor="let project of listAllProjects" value="{{ project._id }}">
                 {{ project.dateOfStart }}
               </option>
             </select>
@@ -147,47 +107,41 @@
                   <tbody>
                     <tr>
                       <td>Chi Phí Dự Án</td>
-                      <td
-                        *ngIf="
+                      <td *ngIf="
                           listIDProject &&
                           listIDProject.projectTasks !== undefined
-                        "
-                      >
+                        ">
                         {{
-                          listIDProject.projectTasks.idProject.budget | currency
+                        listIDProject.projectTasks.idProject.budget | currency
                         }}
                       </td>
                     </tr>
                     <tr>
                       <td>Hiện Tại Đã Chi</td>
-                      <td
-                        *ngIf="
+                      <td *ngIf="
                           listIDProject &&
                           listIDProject.projectTasks !== undefined
-                        "
-                      >
+                        ">
                         {{
-                          listIDProject.projectTasks.idProject.expense
-                            | currency
+                        listIDProject.projectTasks.idProject.expense
+                        | currency
                         }}
                       </td>
                     </tr>
                     <tr>
                       <td>Còn Lại</td>
-                      <td
-                        *ngIf="
+                      <td *ngIf="
                           listIDProject &&
                           listIDProject.projectTasks &&
                           listIDProject.projectTasks.idProject.budget !==
                             undefined &&
                           listIDProject.projectTasks.idProject.expense !==
                             undefined
-                        "
-                      >
+                        ">
                         {{
-                          listIDProject.projectTasks.idProject.budget -
-                            listIDProject.projectTasks.idProject.expense
-                            | currency
+                        listIDProject.projectTasks.idProject.budget -
+                        listIDProject.projectTasks.idProject.expense
+                        | currency
                         }}
                       </td>
                     </tr>
@@ -239,36 +193,24 @@
             </div>
             <div *ngIf="!loading">
               <div id="accordion">
-                <div class="huyit">
+                <div class="areas">
                   <div id="headingOne">
-                    <button
-                      class="btn w-100"
-                      data-toggle="collapse"
-                      data-target="#collapseOne"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
+                    <button class="btn w-100" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                      aria-controls="collapseOne">
                       East
                     </button>
                   </div>
-                  <div
-                    id="collapseOne"
-                    class="collapse show"
-                    aria-labelledby="headingOne"
-                    data-parent="#accordion"
-                  >
+                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <div>
                       <table class="table-area">
                         <tbody>
-                          <ng-container
-                            *ngIf="
+                          <ng-container *ngIf="
                               filterMembersEast && filterMembersEast.length > 0;
                               else noData
-                            "
-                          >
-                            <tr *ngFor="let huydev of filterMembersEast">
+                            ">
+                            <tr *ngFor="let user of filterMembersEast">
                               <th class="bg-info text-center text-white px-2">#</th>
-                              <td>{{ huydev.username }}</td>
+                              <td>{{ user.username }}</td>
                             </tr>
                           </ng-container>
                           <ng-template #noData>
@@ -281,36 +223,24 @@
                     </div>
                   </div>
                 </div>
-                <div class="huyit">
+                <div class="areas">
                   <div id="headingTwo">
-                    <button
-                      class="btn w-100 collapsed"
-                      data-toggle="collapse"
-                      data-target="#collapseTwo"
-                      aria-expanded="false"
-                      aria-controls="collapseTwo"
-                    >
+                    <button class="btn w-100 collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                      aria-expanded="false" aria-controls="collapseTwo">
                       West
                     </button>
                   </div>
-                  <div
-                    id="collapseTwo"
-                    class="collapse"
-                    aria-labelledby="headingTwo"
-                    data-parent="#accordion"
-                  >
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div>
                       <table class="table-area">
                         <tbody>
-                          <ng-container
-                            *ngIf="
+                          <ng-container *ngIf="
                               filterMembersWest && filterMembersWest.length > 0;
                               else noData
-                            "
-                          >
-                            <tr *ngFor="let huydev of filterMembersWest">
-                              <th class="bg-info text-center text-white px-2" >#</th>
-                              <td>{{ huydev.username }}</td>
+                            ">
+                            <tr *ngFor="let user of filterMembersWest">
+                              <th class="bg-info text-center text-white px-2">#</th>
+                              <td>{{ user.username }}</td>
                             </tr>
                           </ng-container>
                           <ng-template #noData>
@@ -323,37 +253,25 @@
                     </div>
                   </div>
                 </div>
-                <div class="huyit">
+                <div class="areas">
                   <div id="headingThree">
-                    <button
-                      class="btn w-100 collapsed"
-                      data-toggle="collapse"
-                      data-target="#collapseThree"
-                      aria-expanded="false"
-                      aria-controls="collapseThree"
-                    >
+                    <button class="btn w-100 collapsed" data-toggle="collapse" data-target="#collapseThree"
+                      aria-expanded="false" aria-controls="collapseThree">
                       South
                     </button>
                   </div>
-                  <div
-                    id="collapseThree"
-                    class="collapse"
-                    aria-labelledby="headingThree"
-                    data-parent="#accordion"
-                  >
+                  <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                     <div>
                       <table class="table-area">
                         <tbody>
-                          <ng-container
-                            *ngIf="
+                          <ng-container *ngIf="
                               filterMembersSouth &&
                                 filterMembersSouth.length > 0;
                               else noData
-                            "
-                          >
-                            <tr *ngFor="let huydev of filterMembersSouth">
+                            ">
+                            <tr *ngFor="let user of filterMembersSouth">
                               <th class="bg-info text-center text-white px-2">#</th>
-                              <td>{{ huydev.username }}</td>
+                              <td>{{ user.username }}</td>
                             </tr>
                           </ng-container>
                           <ng-template #noData>
@@ -366,37 +284,25 @@
                     </div>
                   </div>
                 </div>
-                <div class="huyit">
+                <div class="areas">
                   <div id="headingFour">
-                    <button
-                      class="btn w-100 collapsed"
-                      data-toggle="collapse"
-                      data-target="#collapseFour"
-                      aria-expanded="false"
-                      aria-controls="collapseFour"
-                    >
+                    <button class="btn w-100 collapsed" data-toggle="collapse" data-target="#collapseFour"
+                      aria-expanded="false" aria-controls="collapseFour">
                       North
                     </button>
                   </div>
-                  <div
-                    id="collapseFour"
-                    class="collapse"
-                    aria-labelledby="headingFour"
-                    data-parent="#accordion"
-                  >
+                  <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                     <div>
                       <table class="table-area">
                         <tbody>
-                          <ng-container
-                            *ngIf="
+                          <ng-container *ngIf="
                               filterMembersNorth &&
                                 filterMembersNorth.length > 0;
                               else noData
-                            "
-                          >
-                            <tr *ngFor="let huydev of filterMembersNorth">
+                            ">
+                            <tr *ngFor="let user of filterMembersNorth">
                               <th class="bg-info text-center text-white px-2">#</th>
-                              <td>{{ huydev.username }}</td>
+                              <td>{{ user.username }}</td>
                             </tr>
                           </ng-container>
                           <ng-template #noData>
@@ -421,37 +327,29 @@
           </div>
           <div *ngIf="!loading">
             <ul class="list-group">
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center">
                 Tổng Số Lượng Thành Viên
                 <span class="badge bg-primary text-white">
                   {{ totalAllUsers }}
                 </span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center">
                 Tổng Chi Phí Của Dự Án
                 <span class="badge bg-primary  text-white">
                   {{ totalReducerProject | currency }}
                 </span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center">
                 Các Task Đang Xử Lý
                 <span class="badge bg-primary  text-white">{{
                   lengthTaskProcessing
-                }}</span>
+                  }}</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center">
                 Các Dự Án Đang Triển Khai
                 <span class="badge bg-primary  text-white">{{
                   lengthProjectDeployment
-                }}</span>
+                  }}</span>
               </li>
             </ul>
           </div>

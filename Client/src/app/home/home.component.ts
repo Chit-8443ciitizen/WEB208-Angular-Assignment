@@ -48,16 +48,16 @@ export class HomeComponent implements OnInit {
         this.totalAllUsers = response.length;
         this.listUsers = response;
         this.filterMembersEast = response.filter(
-          (huyne: any) => huyne.area.nameArea === 'East'
+          (data: any) => data.area.nameArea === 'East'
         );
         this.filterMembersWest = response.filter(
-          (huyne: any) => huyne.area.nameArea === 'West'
+          (data: any) => data.area.nameArea === 'West'
         );
         this.filterMembersSouth = response.filter(
-          (huyne: any) => huyne.area.nameArea === 'South'
+          (data: any) => data.area.nameArea === 'South'
         );
         this.filterMembersNorth = response.filter(
-          (huyne: any) => huyne.area.nameArea === 'North'
+          (data: any) => data.area.nameArea === 'North'
         );
         // tính tổng thành viên theo khu vực
         this.areaCounts = {
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
       (response) => {
         // console.log(response)
         this.lengthTaskProcessing = response.filter(
-          (huyne: any) => huyne.status === 'processing'
+          (task: any) => task.status === 'processing'
         ).length;
         this.loading = false;
       },
@@ -120,7 +120,7 @@ export class HomeComponent implements OnInit {
       (response) => {
         // console.log(response);
         this.lengthProjectDeployment = response.filter(
-          (huyne: any) => huyne.status === 'deployment'
+          (project: any) => project.status === 'deployment'
         ).length;
         this.totalReducerProject = response.reduce(
           (total: any, item: any) => total + parseInt(item.budget),

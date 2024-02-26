@@ -1,106 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-// import { ToastrService } from 'ngx-toastr';
-// import { AreaService } from '../services/area.service';
-// import { environment } from 'src/environments/environment';
-
-// @Component({
-//   selector: 'app-area',
-//   templateUrl: './area.component.html',
-//   styleUrls: ['./area.component.css'],
-// })
-// export class AreaComponent implements OnInit {
-//   areas: any;
-//   currentPage: number = 1;
-//   totalPages: number = 0;
-//   totalItems: number = 0;
-//   totalPagesArray: any;
-
-//   nameArea: string = '';
-
-//   constructor(
-//     private areaService: AreaService,
-//     private toastr: ToastrService
-//   ) {}
-
-//   ngOnInit(): void {
-//     this.getAreas();
-//   }
-
-//   getAreas(page: number = environment.pagination.page, limit: number = environment.pagination.limit) {
-//     this.areaService.getAreaPage(page, limit).subscribe(
-//       (response) => {
-//         this.areas = response.areas;
-//         this.currentPage = response.currentPage;
-//         this.totalPages = response.totalPages;
-//         this.totalItems = response.totalItems;
-
-//         this.totalPagesArray = Array.from(
-//           { length: this.totalPages },
-//           (_, index) => index + 1
-//         );
-//       },
-//       (error) => {
-//         console.log(error);
-//       }
-//     );
-//   }
-
-//   saveArea(create: boolean, edit: boolean, huydev: any) {
-//     if (create) {
-//       const data = {
-//         nameArea: this.nameArea,
-//       };
-//       this.areaService.add(data).subscribe(
-//         (response) => {
-//           this.toastr.success(`Thêm Khu Vực Thành Công`, 'Success');
-//           this.getAreas();
-//           this.clearForm();
-//         },
-//         (error) => {
-//           console.log(error);
-//         }
-//       );
-//     } else if (edit && huydev) {
-//       const data = {
-//         nameArea: huydev.nameArea,
-//       };
-//       this.areaService.update(huydev._id, data).subscribe(
-//         (response) => {
-//           if (response.status === true) {
-//             this.toastr.success(`${response.message}`, 'Success');
-//           } else {
-//             this.toastr.error(`${response.message}`, 'Error');
-//           }
-//           this.getAreas();
-//         },
-//         (error) => {
-//           console.log(error);
-//         }
-//       );
-//     }
-//   }
-
-//   deleteArea(id: any) {
-//     this.areaService.delete(id).subscribe(
-//       (response) => {
-//         if (response === true) {
-//           this.toastr.success(`${response.message}`, 'Success');
-//         } else {
-//           this.toastr.error(`${response.message}`, 'Error');
-//         }
-//         this.getAreas();
-//       },
-//       (error) => {
-//         console.log(error);
-//       }
-//     );
-//   }
-
-//   clearForm() {
-//     this.nameArea = '';
-//   }
-// }
-
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AreaService } from '../services/area.service';
@@ -120,6 +17,7 @@ export class AreaComponent implements OnInit {
   totalItems = 0;
   totalPagesArray: number[] = [];
   nameArea = '';
+  createdAt = '';
 
   constructor(
     private areaService: AreaService,
@@ -149,28 +47,30 @@ export class AreaComponent implements OnInit {
       );
   }
 
-  saveArea(create: boolean, edit: boolean, huydev: any) {
+  saveArea(create: boolean, area: any) {
     const data = {
-      nameArea: create ? this.nameArea : huydev.nameArea
+      nameArea: this.nameArea,
+      createdAt: this.createdAt
     };
-
-    const serviceCall = create ? this.areaService.add(data) : this.areaService.update(huydev._id, data);
-
+  
+    const serviceCall = create ? this.areaService.add(data) : this.areaService.update(area._id, data);
+  
     serviceCall.subscribe(
       (response: any) => {
         if (response.status === true) {
           this.toastr.success(response.message, 'Success');
+          this.getAreas(); // Di chuyển gọi hàm getAreas() vào trong phần xử lý thành công của subscribe để đảm bảo nó chỉ được gọi khi yêu cầu thành công
+          if (create) {
+            this.clearForm(); // Xóa form sau khi thêm thành công (chỉ nên làm nếu là create)
+          }
         } else {
           this.toastr.error(response.message, 'Error');
-        }
-        this.getAreas();
-        if (create) {
-          this.clearForm();
         }
       },
       (error) => console.error(error)
     );
   }
+  
 
   deleteArea(id: any) {
     this.areaService.delete(id)
@@ -189,5 +89,6 @@ export class AreaComponent implements OnInit {
 
   clearForm() {
     this.nameArea = '';
+    this.createdAt = ''; // Xóa giá trị của createdAt khi form được xóa
   }
 }

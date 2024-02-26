@@ -34,24 +34,24 @@
         </thead>
         <tbody>
           <ng-container *ngIf="users && users.length > 0; else noData">
-            <tr *ngFor="let huydev of users">
-              <td class="text-center">{{ huydev._id }}</td>
-              <td class="text-center">{{ huydev.username }}</td>
-              <td class="text-center">{{ huydev.email }}</td>
-              <td class="text-center">{{ huydev.level }}</td>
-              <td class="text-center">{{ huydev.area.nameArea }}</td>
+            <tr *ngFor="let user of users">
+              <td class="text-center">{{ user._id }}</td>
+              <td class="text-center">{{ user.username }}</td>
+              <td class="text-center">{{ user.email }}</td>
+              <td class="text-center">{{ user.level }}</td>
+              <td class="text-center">{{ user.area.nameArea }}</td>
               <td class="text-center">
-                {{ huydev.createdAt | date : "dd/MM/yyyy HH:mm:ss" }}
+                {{ user.createdAt | date : "dd/MM/yyyy HH:mm:ss" }}
               </td>
 
               <td class="text-center" style="text-transform: capitalize">
-                {{ huydev.status }}
+                {{ user.status }}
               </td>
               <td class="text-center">
                 <button
                   class="btn btn-info mr-2"
                   data-toggle="modal"
-                  [attr.data-target]="'#editModal_' + huydev._id"
+                  [attr.data-target]="'#editModal_' + user._id"
                 >
                   <i class="fas fa-edit"></i>
                   <span> Edit</span>
@@ -60,7 +60,7 @@
                 <!-- Edit Modal -->
                 <div
                   class="modal fade text-left"
-                  [id]="'editModal_' + huydev._id"
+                  [id]="'editModal_' + user._id"
                   tabindex="-1"
                   role="dialog"
                   aria-labelledby="editModalLabel"
@@ -70,7 +70,7 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <h5 class="modal-title" id="editModalLabel">
-                          Edit User [ {{ huydev.username }} ]
+                          Edit User [ {{ user.username }} ]
                         </h5>
                         <button
                           type="button"
@@ -89,7 +89,7 @@
                               class="form-control"
                               id="level"
                               name="level"
-                              [(ngModel)]="huydev.level"
+                              [(ngModel)]="user.level"
                             >
                               <option value="">Chọn Trạng Thái</option>
                               <option value="leader">Leader</option>
@@ -102,7 +102,7 @@
                               class="form-control"
                               id="status"
                               name="status"
-                              [(ngModel)]="huydev.status"
+                              [(ngModel)]="user.status"
                             >
                               <option value="">Chọn Trạng Thái</option>
                               <option value="Online">Online</option>
@@ -123,7 +123,7 @@
                         <button
                           type="button"
                           class="btn btn-primary"
-                          (click)="updateUser(huydev)"
+                          (click)="updateUser(user)"
                           data-dismiss="modal"
                         >
                           Save

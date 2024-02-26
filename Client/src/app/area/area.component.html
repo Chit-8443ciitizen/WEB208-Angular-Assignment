@@ -1,17 +1,15 @@
 <app-header></app-header>
+
 <div class="container-fluid">
   <div class="row">
     <app-sidebar></app-sidebar>
+
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <!-- Area Management Section -->
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Area</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Create Area</button>
-          <div class="btn-group ml-2">
-            <button type="button" class="btn btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-outline-secondary">Export</button>
-          </div>
         </div>
       </div>
       <!-- Table -->
@@ -20,24 +18,24 @@
           <tr class="text-center">
             <th>_ID</th>
             <th>AREA NAME</th>
-            <th>DATE</th>
+            <th>CREATED AT</th> <!-- Thêm cột CREATED AT -->
             <th>ACTIONS</th>
           </tr>
         </thead>
         <tbody>
           <!-- Area data rows -->
           <ng-container *ngIf="areas && areas.length > 0; else noData">
-            <tr *ngFor="let huydev of areas">
-              <td class="text-center">{{ huydev._id }}</td>
-              <td class="text-center">{{ huydev.nameArea }}</td>
-              <td class="text-center">{{ huydev.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+            <tr *ngFor="let area of areas">
+              <td class="text-center">{{ area._id }}</td>
+              <td class="text-center">{{ area.nameArea }}</td>
+              <td class="text-center">{{ area.createdAt | date:'dd-MM-yyyy'}}</td>
               <td class="text-center">
                 <!-- Edit Button -->
-                <button class="btn btn-info mr-2" data-toggle="modal" [attr.data-target]="'#editModal_' + huydev._id">
+                <button class="btn btn-info mr-2" data-toggle="modal" [attr.data-target]="'#editModal_' + area._id">
                   <i class="fas fa-edit"></i><span> Edit</span>
                 </button>
                 <!-- Delete Button -->
-                <button class="btn btn-danger" (click)="deleteArea(huydev._id)">
+                <button class="btn btn-danger" (click)="deleteArea(area._id)">
                   <i class="fas fa-trash"></i><span> Delete</span>
                 </button>
               </td>
@@ -51,6 +49,7 @@
           </ng-template>
         </tbody>
       </table>
+
       <!-- Pagination -->
       <nav class="text-center">
         <ul class="pagination">
@@ -70,16 +69,43 @@
       </nav>
       <!-- Add Modal -->
       <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-        <!-- Add Area Modal Content -->
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addModalLabel">Add Area</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="nameArea">Area Name</label>
+                  <input type="text" class="form-control" id="nameArea" [(ngModel)]="nameArea" name="nameArea" placeholder="Tên khu vực" />
+                </div>
+                <div class="form-group">
+                  <label for="dateOfStart">Create at</label>
+                  <input type="date" class="form-control" id="createdAt" [(ngModel)]="createdAt" name="createdAt" />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" (click)="saveArea(true, null)" data-dismiss="modal">Add</button>
+            </div>
+          </div>
+        </div>
       </div>
+     
       <!-- Edit Modals -->
       <ng-container *ngIf="areas && areas.length > 0">
-        <div *ngFor="let huydev of areas">
-          <div class="modal fade" [id]="'editModal_' + huydev._id" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div *ngFor="let area of areas">
+          <div class="modal fade" [id]="'editModal_' + area._id" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
             <!-- Edit Area Modal Content -->
           </div>
         </div>
       </ng-container>
+
     </main>
   </div>
 </div>

@@ -1,11 +1,17 @@
+<!-- Spinner Overlay -->
 <div *ngIf="isLoading" class="spinner-overlay">
   <div class="spinner">
     <i class="fa fa-spinner fa-spin"></i>
   </div>
 </div>
+
+<!-- Register Form -->
 <div class="container-fluid ps-md-0">
   <div class="row g-0">
+    <!-- Background Image Column -->
     <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+
+    <!-- Register Form Column -->
     <div class="col-md-8 col-lg-6">
       <div class="login d-flex align-items-center py-5">
         <div class="container">
@@ -13,39 +19,39 @@
             <div class="col-md-9 col-lg-8 mx-auto">
               <h3 class="login-heading mb-4">Register</h3>
 
-              <!-- Register Form -->
               <form (ngSubmit)="registerUser()">
+                <!-- Email Field -->
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="email"
-                    name="email" />
+                  <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="email" name="email" />
                 </div>
+
+                <!-- Username Field -->
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>
-                  <input type="text" class="form-control" id="username" placeholder="Username" [(ngModel)]="username"
-                    name="username" />
+                  <input type="text" class="form-control" id="username" placeholder="Username" [(ngModel)]="username" name="username" />
                 </div>
+
+                <!-- Area Field -->
                 <div class="mb-3">
                   <label for="area" class="form-label">Area</label>
                   <select id="area" class="form-control" [(ngModel)]="area" name="area">
                     <option value="">Chọn Area</option>
-                    <option *ngFor="let area of areas" [value]="area._id">
-                      {{ area.name }}
-                    </option>
+                    <option *ngFor="let area of areas" [value]="area._id">{{ area.nameArea }}</option>
                   </select>
                 </div>
+
+                <!-- Password Field -->
                 <div class="mb-3">
                   <label for="password" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="password" placeholder="Password"
-                    [(ngModel)]="password" name="password" />
+                  <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="password" name="password" />
                 </div>
 
+                <!-- Register Button -->
                 <div class="d-grid">
-                  <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">
-                    Register
-                  </button>
+                  <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Register</button>
                   <div class="text-center">
-                    <a class="small" href="/login">Đã Có Tài Khoản , Đăng Nhập ?</a>
+                    <a class="small" href="/login">Đã Có Tài Khoản, Đăng Nhập?</a>
                   </div>
                 </div>
               </form>

@@ -32,7 +32,7 @@ export class ProjectComponent implements OnInit {
     this.getProjects();
   }
 
-  saveProject(create: boolean, edit: boolean, huydev: any) {
+  saveProject(create: boolean, edit: boolean, project: any) {
     if (create) {
       const data = {
         nameProject: this.nameProject,
@@ -52,16 +52,16 @@ export class ProjectComponent implements OnInit {
           console.log(error);
         }
       );
-    } else if (edit && huydev) {
+    } else if (edit && project) {
       const data = {
-        nameProject: huydev.nameProject,
-        teamSize: huydev.teamSize,
-        dateOfStart: huydev.dateOfStart,
-        budget: huydev.budget,
-        expense: huydev.expense,
-        status: huydev.status,
+        nameProject: project.nameProject,
+        teamSize: project.teamSize,
+        dateOfStart: project.dateOfStart,
+        budget: project.budget,
+        expense: project.expense,
+        status: project.status,
       };
-      this.projectService.update(huydev._id, data).subscribe(
+      this.projectService.update(project._id, data).subscribe(
         (response) => {
           if (response.status === true) {
             this.toastr.success(`${response.message}`, 'Success');

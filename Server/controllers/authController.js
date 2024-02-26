@@ -61,57 +61,55 @@ exports.register = async (req, res, next) => {
   }
 };
 
-// login
-
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
-
   try {
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ username });
 
     if (!user) {
-      return res
-        .status(200)
-        .json({ status: false, message: "Username đăng nhập không tồn tại" });
+      return res.status(200).json({ status: false, message: "Username đăng nhập không tồn tại" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res
-        .status(200)
-        .json({ status: false, message: "Mật khẩu không đúng" });
+      return res.status(200).json({ status: false, message: "Mật khẩu không đúng" });
     }
-    const userArea = await User.find({}).populate("area", "nameArea");
-    // console.log(userArea);
+
+    const userArea = await User.findById(user._id).populate("area", "nameArea");
+
+    if (!userArea || !userArea.area) {
+      return res.status(500).json({ status: false, message: "Không thể truy cập thông tin khu vực của người dùng" });
+    }
+
     const payload = {
       user: {
         id: user._id,
         username: user.username,
         email: user.email,
-        area: userArea[0].area.nameArea,
+        area: userArea.area.nameArea,
         level: user.level,
       },
     };
-    const accessToken = jwt.sign(payload, "access_token_secret", {
-      expiresIn: "10m",
-    });
-    // Tạo mã refresh token
-    const refreshToken = jwt.sign(payload, "refresh_token_secret", {
-      expiresIn: "7d",
-    });
+
+    const accessToken = generateToken(payload, "access_token_secret", "10m");
+    const refreshToken = generateToken(payload, "refresh_token_secret", "7d");
+
     res.status(200).json({
       status: true,
       message: "Đăng nhập thành công",
-      accessToken: accessToken,
-      refreshToken: refreshToken,
+      accessToken,
+      refreshToken,
     });
   } catch (err) {
-    return res
-      .status(500)
-      .json({ status: false, message: "Lỗi trong quá trình đăng nhập" });
+    console.error(err);
+    res.status(500).json({ status: false, message: "Lỗi trong quá trình đăng nhập" });
   }
 };
+
+function generateToken(payload, secret, expiresIn) {
+  return jwt.sign(payload, secret, { expiresIn });
+}
 
 exports.verifyAccessToken = async (req, res, next) => {
   const accessToken = req.headers.authorization.split(" ")[1];

@@ -9,6 +9,7 @@ const userController = require("../controllers/userController");
 
 router.post("/register", authController.register);
 router.post("/login", authController.login);
+// router.post("", authController.login);
 
 router.post("/addProject", verifyAccessToken, projectController.addProject);
 router.get("/getProjects", verifyAccessToken, projectController.getProjects);
@@ -45,7 +46,7 @@ router.get("/getAreas", areaController.getAreas);
 router.put("/updateArea/:id", verifyAccessToken, areaController.putArea);
 router.delete("/deleteArea/:id", verifyAccessToken, areaController.deleteArea);
 
-
 router.put("/updateUser/:id", verifyAccessToken, userController.updateUser);
 router.get("/getUserId/:username", verifyAccessToken, userController.getUserId);
+
 module.exports = router;
