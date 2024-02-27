@@ -20,7 +20,7 @@ exports.addProject = (req, res, next) => {
     status == "" ||
     expense == ""
   ) {
-    res.status(200).json({ status: false, message: "Không Được Để Trống" });
+    res.status(200).json({ status: false, message: "Không được để trống" });
   } else {
     const project = new Project({
       nameProject,
@@ -36,16 +36,16 @@ exports.addProject = (req, res, next) => {
       .then((result) => {
         res.status(201).json({
           status: true,
-          message: "Thêm Project Thành Công",
+          message: "Thêm Project thành công",
           project: result,
         });
       })
       .catch((err) => {
         console.log(err);
-        // if (!err.statusCode) {
-        //   err.statusCode = 500;
-        // }
-        // next(err);
+        if (!err.statusCode) {
+          err.statusCode = 500;
+        }
+        next(err);
       });
   }
 };

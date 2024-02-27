@@ -128,7 +128,7 @@ export class HomeComponent implements OnInit {
 
         this.listAllProjects = response; 
         this.currentProject = this.listAllProjects[0];
-        console.log(this.currentProject +"- currentProject");
+        //console.log(this.currentProject +"- currentProject");
         const selectedValue = this.listAllProjects[0]._id; 
         //console.log(selectedValue+" getAllProjects()");
         this.getSelectedProjects(selectedValue);
@@ -146,7 +146,7 @@ export class HomeComponent implements OnInit {
     this.projectService.getID(selectedValue).subscribe(
       (response) => {
         this.currentProject = response;
-        //console.log(this.currentProject._id); 
+        console.log(this.currentProject._id); 
         //this.getListCurrentProjectTasks(this.currentProject._id);
         this.loading = false;
       },
@@ -165,7 +165,7 @@ export class HomeComponent implements OnInit {
       (response) => {
         // console.log(response)
         this.listExistTasks = response.filter((task: any) => task.status !== "cancel"  );
-        console.log(JSON.stringify(this.listExistTasks)+"-listExistTasks");
+        //console.log(JSON.stringify(this.listExistTasks)+"-listExistTasks");
         
         this.lengthTaskProcessing = response.filter(
           (task: any) => task.status === 'processing'

@@ -8,7 +8,7 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Project</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+          <button *ngIf="isAdmin" type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
             Create Project
           </button>
           <!-- <div class="btn-group ml-2">
@@ -27,11 +27,11 @@
             <!-- <th>PROJECT ID</th> -->
             <th>PROJECT NAME</th>
             <th>LEADER NAME</th>
-            <th>DATE OF START</th>
+            <th>DATE OF START (y-m-d)</th>
             <th>TEAM SIZE</th>
             <th>BUDGET</th>
             <th>STATUS</th>
-            <th>ACTIONS</th>
+            <th *ngIf="isAdmin">ACTIONS</th>
           </tr>
         </thead>
         <tbody>
@@ -51,7 +51,7 @@
               <td class="text-center" style="text-transform: capitalize">
                 {{ project.status }}
               </td>
-              <td class="text-center">
+              <td *ngIf="isAdmin" class="text-center">
                 <button class="btn btn-info mr-2" data-toggle="modal" [attr.data-target]="'#editModal_' + project._id">
                   <i class="fas fa-edit"></i>
                   <span> Edit</span>
@@ -62,72 +62,74 @@
                   <span> Delete</span>
                 </button>
 
-                <!-- Edit Modal -->
-                <div class="modal fade text-left" [id]="'editModal_' + project._id" tabindex="-1" role="dialog"
-                  aria-labelledby="editModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">
-                          Edit Project [ {{ project.nameProject }} ]
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="projectName">Project Name</label>
-                            <input type="text" class="form-control" id="nameProject" [(ngModel)]="project.nameProject"
-                              name="nameProject" placeholder="Tên Dự Án" />
-                          </div>
-                          <div class="form-group">
-                            <label for="dateOfStart">Date of Start</label>
-                            <input type="date" class="form-control" id="dateOfStart" [(ngModel)]="project.dateOfStart"
-                              name="dateOfStart" />
-                          </div>
-                          <div class="form-group">
-                            <label for="teamSize">Team Size</label>
-                            <input type="number" class="form-control" id="teamSize" [(ngModel)]="project.teamSize"
-                              name="teamSize" placeholder="0" />
-                          </div>
-                          <div class="form-group">
-                            <label for="status">Status</label>
-                            <select class="form-control" id="status" name="status" [(ngModel)]="project.status">
-                              <option value="">Chọn Trạng Thái</option>
-                              <option value="deployment">Triển Khai</option>
-                              <option value="processing">Đang Xử Lý</option>
-                              <option value="complete">Hoàn Thành</option>
-                              <option value="cancel">Hủy Bỏ</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="budget">Budget</label>
-                            <input type="number" class="form-control" id="budget" [(ngModel)]="project.budget"
-                              name="budget" placeholder="100,000,000" />
-                          </div>
-                          <div class="form-group">
-                            <label for="expense">Expense</label>
-                            <input type="number" class="form-control" id="expense" [(ngModel)]="project.expense"
-                              name="expense" placeholder="200,000" />
-                          </div>
-                        </form>
-                      </div>
+              </td>
 
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                          Close
-                        </button>
-                        <button type="button" class="btn btn-primary" (click)="saveProject(false, true, project)"
-                          data-dismiss="modal">
-                          Save
-                        </button>
-                      </div>
+              <!-- Edit Modal -->
+              <div class="modal fade text-left" [id]="'editModal_' + project._id" tabindex="-1" role="dialog"
+                aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="editModalLabel">
+                        Edit Project [ {{ project.nameProject }} ]
+                      </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="projectName">Project Name</label>
+                          <input type="text" class="form-control" id="nameProject" [(ngModel)]="project.nameProject"
+                            name="nameProject" placeholder="Tên Dự Án" />
+                        </div>
+                        <div class="form-group">
+                          <label for="dateOfStart">Date of Start</label>
+                          <input type="date" class="form-control" id="dateOfStart" [(ngModel)]="project.dateOfStart"
+                            name="dateOfStart" />
+                        </div>
+                        <div class="form-group">
+                          <label for="teamSize">Team Size</label>
+                          <input type="number" class="form-control" id="teamSize" [(ngModel)]="project.teamSize"
+                            name="teamSize" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                          <label for="status">Status</label>
+                          <select class="form-control" id="status" name="status" [(ngModel)]="project.status">
+                            <option value="">Chọn Trạng Thái</option>
+                            <option value="deployment">Triển Khai</option>
+                            <option value="processing">Đang Xử Lý</option>
+                            <option value="complete">Hoàn Thành</option>
+                            <option value="cancel">Hủy Bỏ</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="budget">Budget</label>
+                          <input type="number" class="form-control" id="budget" [(ngModel)]="project.budget"
+                            name="budget" placeholder="100,000,000" />
+                        </div>
+                        <div class="form-group">
+                          <label for="expense">Expense</label>
+                          <input type="number" class="form-control" id="expense" [(ngModel)]="project.expense"
+                            name="expense" placeholder="200,000" />
+                        </div>
+                      </form>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                      </button>
+                      <button type="button" class="btn btn-primary" (click)="saveProject(false, true, project)"
+                        data-dismiss="modal">
+                        Save
+                      </button>
                     </div>
                   </div>
                 </div>
-              </td>
+              </div>
+              
             </tr>
           </ng-container>
           <ng-template #noData>

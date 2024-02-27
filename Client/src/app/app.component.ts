@@ -19,8 +19,8 @@ export class AppComponent implements OnInit {
     //   // console.log(this.level);
     // });
     // this.level = this.authService.getLevel() || "";
-    console.log(localStorage.getItem('level'));
-    console.log(localStorage.getItem('username'));
+    // console.log(localStorage.getItem('level'));
+    // console.log(localStorage.getItem('username'));
     this.refreshToken();
   }
 

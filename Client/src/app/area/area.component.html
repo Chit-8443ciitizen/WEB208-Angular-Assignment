@@ -8,7 +8,7 @@
       <!-- Area Management Section -->
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Area</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
+        <div *ngIf="isAdmin" class="btn-toolbar mb-2 mb-md-0">
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addArea">Create Area</button>
         </div>
       </div>
@@ -18,8 +18,8 @@
           <tr class="text-center">
             <!-- <th>_ID</th> -->
             <th>AREA NAME</th>
-            <th>CREATED AT</th> <!-- Thêm cột CREATED AT -->
-            <th>ACTIONS</th>
+            <th>CREATED AT (d-m-y)</th> <!-- Thêm cột CREATED AT -->
+            <th *ngIf="isAdmin">ACTIONS</th>
           </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@
               <!-- <td class="text-center">{{ area._id }}</td> -->
               <td class="text-center">{{ area.nameArea }}</td>
               <td class="text-center">{{ area.createdAt | date:'dd-MM-yyyy'}}</td>
-              <td class="text-center">
+              <td *ngIf="isAdmin" class="text-center">
                 <!-- Edit Button -->
                 <button class="btn btn-info mr-2" data-toggle="modal" [attr.data-target]="'#editModal_' + area._id">
                   <i class="fas fa-edit"></i><span> Edit</span>
@@ -85,13 +85,13 @@
                 </div>
                 <div class="form-group">
                   <label for="dateOfStart">Create at</label>
-                  <input type="date" class="form-control" id="createdAt" [(ngModel)]="createdAt" name="createdAt" />
+                  <input type="date" class="form-control" id="createdAt" [(ngModel)]="createdAt" name="createdAt" max="{{ getCurrentDate() }}"/>
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" (click)="saveArea(true, null)" data-dismiss="modal">Add</button>
+              <button type="button" class="btn btn-primary" (click)="saveArea(true, false, null)" data-dismiss="modal">Add</button>
             </div>
           </div>
         </div>
@@ -101,7 +101,32 @@
       <ng-container *ngIf="areas && areas.length > 0">
         <div *ngFor="let area of areas">
           <div class="modal fade" [id]="'editModal_' + area._id" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-            <!-- Edit Area Modal Content -->
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addModalLabel">Edit Area</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="nameEditArea">Edit Name</label>
+                      <input type="text" class="form-control" id="nameEditArea" [(ngModel)]="nameEditArea" name="nameEditArea" placeholder="{{ area.nameArea}}" />
+                    </div>
+                    <div class="form-group">
+                      <label for="dateOfStart">Create at</label>
+                      <input type="text" class="form-control" id="createdAt" [(ngModel)]="createdEditAt" name="createdAt" placeholder="{{ area.createdAt | date:'dd-MM-yyyy'}}" disabled/>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" (click)="saveArea(false, true, area)" data-dismiss="modal">Add</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </ng-container>

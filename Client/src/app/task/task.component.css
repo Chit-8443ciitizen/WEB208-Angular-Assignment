@@ -8,3 +8,8 @@
   background-color: #007bff;
   color: #fff;
 }
+.overflow-hidden {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

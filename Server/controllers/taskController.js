@@ -2,8 +2,7 @@ const Task = require("../models/Task");
 const Project = require("../models/Project");
 
 exports.addTask = (req, res, next) => {
-  const { taskName, description, idProject, priority, assignedTo, status } =
-    req.body;
+  const { taskName, description, idProject, priority, assignedTo, status } = req.body;
   if (
     taskName == "" ||
     description == "" ||
@@ -14,21 +13,13 @@ exports.addTask = (req, res, next) => {
   ) {
     res.status(200).json({ status: false, message: "Không Được Để Trống" });
   } else {
-    const task = new Task({
-      taskName,
-      description,
-      idProject,
-      priority,
-      assignedTo,
-      status,
-    });
-    task
-      .save()
+    const task = new Task({taskName, description, idProject, priority, assignedTo, status});
+    task.save()
       .then((result) => {
         res.status(201).json({
           status: true,
           message: "Thêm Task Thành Công",
-          project: result,
+          task: result,
         });
       })
       .catch((err) => {
@@ -152,7 +143,7 @@ exports.deleteTask = (req, res, next) => {
       if (post.deletedCount > 0) {
         res
           .status(200)
-          .json({ status: true, message: "Xóa Project Thành Công" });
+          .json({ status: true, message: "Xóa Task thành công" });
       } else {
         res
           .status(200)

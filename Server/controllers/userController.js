@@ -52,20 +52,22 @@ exports.updateUser = async (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
   const _id = req.params.id;
-  Area.deleteOne({ _id: _id })
-    .then((post) => {
-      if (post.deletedCount > 0) {
-        res.status(200).json({ status: true, message: "Xóa user Thành Công" });
-      } else {
-        const error = new Error("Không tìm thấy danh mục này");
-        error.statusCode = 404;
-        throw error;
-      }
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
+  User.deleteOne({ _id: _id })
+  .then((post) => {
+    if (post.deletedCount > 0) {
+      res
+        .status(200)
+        .json({ status: true, message: "Xóa User thành công" });
+    } else {
+      res
+        .status(200)
+        .json({ status: false, message: "Không tìm thấy danh mục này" });
+    }
+  })
+  .catch((err) => {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  });
 };

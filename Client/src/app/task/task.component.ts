@@ -14,7 +14,7 @@ import { filter } from 'rxjs';
 })
 export class TaskComponent implements OnInit {
   projects: any;
-  tasks: any;
+  tasks : any;
   users : any;
 
   level!: string | null;
@@ -32,6 +32,7 @@ export class TaskComponent implements OnInit {
   status: string = '';
 
   isAdmin: boolean = false ;
+  isEmployee: boolean = true ;
 
   constructor(
     private projectService: ProjectService,
@@ -60,8 +61,9 @@ export class TaskComponent implements OnInit {
       }
     );
   }
-  checkAdmin(level: string): void {
+  checkLevel(level: string): void {
     this.isAdmin = (level === 'admin');
+    this.isEmployee = (level === 'employee');
   }
   getTask(
     page: number = environment.pagination.page,
@@ -70,9 +72,10 @@ export class TaskComponent implements OnInit {
     const level = localStorage.getItem('level');
     this.level = level;
     if (level === 'leader' || level === 'admin') {
-      this.checkAdmin(level);
+      this.checkLevel(level);
       this.taskService.getTaskPage(page, limit).subscribe(
         (response) => {
+          console.log(response);
           this.tasks = response.tasks;
           this.currentPage = response.currentPage;
           this.totalPages = response.totalPages;
@@ -133,7 +136,7 @@ export class TaskComponent implements OnInit {
   getEmployees() {
       this.userService.get().subscribe(
         (response) => {
-          this.users = response.filter((user: any)=> user.level === "employee");
+          this.users = response.filter((user: any)=> user.level != "admin");
         },
         (error) => {
           console.log(error);

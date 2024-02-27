@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../services/project.service';
 import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { filter } from 'rxjs';
@@ -14,6 +15,9 @@ export class ProjectComponent implements OnInit {
   projects: any;
   leaders : any;
   projectEmployees : any;
+
+  isAdmin: boolean = false;
+  level: string | null = null;
 
   currentPage: number = 1;
   totalPages: number = 0;
@@ -32,12 +36,18 @@ export class ProjectComponent implements OnInit {
     private projectService: ProjectService,
     private toastr: ToastrService,
     private userService: UserService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
     this.getProjects();
     this.getLeaders();
     
+    this.authService.level.subscribe((level) => {
+      this.level = level;
+    });
+    this.level = this.authService.getLevel();
+    this.checkAdmin(this.level || "");
   }
 
   saveProject(create: boolean, edit: boolean, project: any) {
@@ -50,10 +60,14 @@ export class ProjectComponent implements OnInit {
         budget: this.budget,
         expense: this.expense,
         status: this.status,
-      };
+      }; console.log(data);
       this.projectService.add(data).subscribe(
         (response) => {
-          this.toastr.success(`Thêm Project Thành Công`, 'Success');
+          if (response.status === true) {
+            this.toastr.success(`${response.message}`, 'Success');
+          } else {
+            this.toastr.error(`${response.message}`, 'Error');
+          }
           this.getProjects();
           this.clearForm();
         },
@@ -106,7 +120,7 @@ export class ProjectComponent implements OnInit {
   getProjects(page: number = environment.pagination.page, limit: number = environment.pagination.limit) {
     this.projectService.getProjectPage(page, limit).subscribe(
       (response) => {
-        console.log(response.projects);
+        //console.log(response.projects);
         this.projects = response.projects;
         this.currentPage = response.currentPage;
         this.totalPages = response.totalPages;
@@ -127,7 +141,7 @@ export class ProjectComponent implements OnInit {
     this.userService.get().subscribe(
       (response) => {
         this.leaders = response.filter((leader: any)=> leader.level === "leader");
-        console.log(this.leaders);
+        //console.log(this.leaders);
         // this.projectEmployees = this.leaders.filter((leader:any) => leader._id ==="")
       },
       (error) => {
@@ -144,4 +158,9 @@ export class ProjectComponent implements OnInit {
     this.budget = '';
     this.status = '';
   }
+
+  checkAdmin(level: string): void {
+    this.isAdmin = (level === 'admin');
+  }
+  
 }

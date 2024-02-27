@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
@@ -10,7 +11,8 @@ import { environment } from 'src/environments/environment';
 })
 export class UserComponent implements OnInit {
   users: any;
-
+  level: string | null = null;
+  isAdmin: boolean = false;
   currentPage: number = 1;
   totalPages: number = 0;
   totalItems: number = 0;
@@ -18,11 +20,18 @@ export class UserComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.getUsers();
+
+    this.authService.level.subscribe((level) => {
+      this.level = level;
+    });
+    this.level = this.authService.getLevel();
+    this.checkAdmin(this.level || "");
   }
 
   getUsers(page: number = environment.pagination.page, limit: number = environment.pagination.limit) {
@@ -63,4 +72,31 @@ export class UserComponent implements OnInit {
       }
     );
   }
+
+  deleteUser(id: any) {
+    this.userService.delete(id).subscribe(
+      (response) => {
+        if (response.status === true) {
+          this.toastr.success(`${response.message}`, 'Success');
+        } else {
+          this.toastr.error(`${response.message}`, 'Error');
+        }
+        this.getUsers();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  checkAdmin(level: string): void {
+    this.isAdmin = (level === 'admin');
+    //this.isEmployee = (level === 'employee');
+  }
+  checkLevel(id: string): string {
+    //this.isAdmin = (level === 'admin');
+    //this.isEmployee = (level === 'employee');
+    return "kkk";
+  }
+
 }

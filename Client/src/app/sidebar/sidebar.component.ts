@@ -10,9 +10,10 @@ import { filter } from 'rxjs/operators';
 })
 export class SidebarComponent implements OnInit {
   level: string | null = null;
-  activeRoute: string = '';
   isAdmin: boolean = true;
 
+  activeRoute: string = '';
+  
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -22,7 +23,7 @@ export class SidebarComponent implements OnInit {
     });
 
     this.level = this.authService.getLevel();
-    console.log(this.level);
+    //console.log(this.level);
     
     this.checkAdmin(this.level || "");
   }

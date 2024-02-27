@@ -1,35 +1,31 @@
 const Area = require("../models/Area");
 
 exports.addArea = (req, res, next) => {
-  const { nameArea, createdAt } = req.body; //
-  console.log(nameArea + createdAt); // Kiểm tra dữ liệu được nhận từ frontend
-
-  if (!nameArea || !createdAt) {
-    return res.status(400).json({ status: false, message: "Vui lòng cung cấp đầy đủ thông tin" });
-  }
-
-  const area = new Area({
-    nameArea,
-    createdAt
-  });
-
-  area.save()
+  const { nameArea, createdAt } = req.body;
+  
+  if (nameArea == "" || createdAt == "") {
+    return res.status(200).json({ status: false, message: "Không được để trống" });
+  } else{
+    const area = new Area({nameArea, createdAt });
+    area.save()
     .then((savedArea) => { // Thêm savedArea vào hàm then để truy cập vào khu vực đã lưu
       if (!savedArea) {
         return res.status(500).json({ status: false, message: "Không thể lưu khu vực vào cơ sở dữ liệu" });
+      } else {
+        res.status(201).json({
+          status: true,
+          message: "Thêm Area Thành Công",
+          area: savedArea // Trả về khu vực đã được lưu
+        });
       }
-      res.status(201).json({
-        status: true,
-        message: "Thêm Area Thành Công",
-        area: savedArea // Trả về khu vực đã được lưu
-      });
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).json({ status: false, message: "Lỗi trong quá trình thêm Area" });
+      res.status(500).json({ status: false, message: "Lỗi trong quá trình thêm Area- "+ area });
     });
+  }
+  
 };
-
 
 exports.getAreas = async (req, res, next) => {
   if (req.query.page && req.query.limit) {
@@ -47,6 +43,7 @@ exports.getAreas = async (req, res, next) => {
         totalPages: Math.ceil(totalUser / limit),
         totalItems: totalUser,
       });
+      console.log("exports.getAreas ok");
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error getAreas" });
@@ -70,6 +67,7 @@ exports.putArea = async (req, res, next) => {
       res.status(200).json({
         status: true,
         message: "Cập Nhật Khu Vực Thành Công",
+        area : result,
       });
     })
     .catch((err) => {

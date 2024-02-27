@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const postSchema = new Schema(
   {
-    name: {
+    nameArea: {
       type: String,
       required: true,
     },

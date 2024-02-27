@@ -46,58 +46,59 @@
               <td class="text-center" style="text-transform: capitalize">
                 {{ user.status }}
               </td>
-              <td class="text-center">
+              <td  class="text-center"> <!---->
                 <button class="btn btn-info mr-2" data-toggle="modal" [attr.data-target]="'#editModal_' + user._id">
                   <i class="fas fa-edit"></i>
-                  <span> Edit</span>
                 </button>
+                <button *ngIf="isAdmin" class="btn h-50 w-30 btn-danger" (click)="deleteUser(user._id)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+              <!-- Edit Modal -->
+              <div class="modal fade text-left" [id]="'editModal_' + user._id" tabindex="-1" role="dialog"
+              aria-labelledby="editModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">
+                      Edit User [ {{ user.username }} ]
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="level">Level</label>
+                        <select class="form-control" id="level" name="level" [(ngModel)]="user.level">
+                          <option value="">Chọn Trạng Thái</option>
+                          <option value="leader">Leader</option>
+                          <option value="employee">Employee</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status" [(ngModel)]="user.status">
+                          <option value="">Chọn Trạng Thái</option>
+                          <option value="Online">Online</option>
+                          <option value="Office">Office</option>
+                        </select>
+                      </div>
+                    </form>
+                  </div>
 
-                <!-- Edit Modal -->
-                <div class="modal fade text-left" [id]="'editModal_' + user._id" tabindex="-1" role="dialog"
-                  aria-labelledby="editModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">
-                          Edit User [ {{ user.username }} ]
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <form>
-                          <div class="form-group">
-                            <label for="level">Level</label>
-                            <select class="form-control" id="level" name="level" [(ngModel)]="user.level">
-                              <option value="">Chọn Trạng Thái</option>
-                              <option value="leader">Leader</option>
-                              <option value="employee">Employee</option>
-                            </select>
-                          </div>
-                          <div class="form-group">
-                            <label for="status">Status</label>
-                            <select class="form-control" id="status" name="status" [(ngModel)]="user.status">
-                              <option value="">Chọn Trạng Thái</option>
-                              <option value="Online">Online</option>
-                              <option value="Office">Office</option>
-                            </select>
-                          </div>
-                        </form>
-                      </div>
-
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                          Close
-                        </button>
-                        <button type="button" class="btn btn-primary" (click)="updateUser(user)" data-dismiss="modal">
-                          Save
-                        </button>
-                      </div>
-                    </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="updateUser(user)" data-dismiss="modal">
+                      Save
+                    </button>
                   </div>
                 </div>
-              </td>
+              </div>
+            </div>
             </tr>
           </ng-container>
           <ng-template #noData>
