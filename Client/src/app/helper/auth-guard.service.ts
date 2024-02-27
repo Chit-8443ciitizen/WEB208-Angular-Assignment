@@ -18,15 +18,24 @@ export class AuthGuardService implements CanActivate {
     const routePath = route.routeConfig?.path; // lấy đường dẫn router
 
     if (accessToken) {
-      const level = this.authService.getLevel();
-      if (level === 'leader') {
+      const level = this.authService.getLevel(); console.log(level);
+      if (level === 'admin') {
         return true;
-      } else if (level === 'employee') {
+      }
+      else if (level === 'leader') {
+        if (routePath === 'project') {
+          this.router.navigate(['access-denied']);
+          return false;
+        }
+        return true; // Thêm điều kiện cho level === 'admin'
+      }
+       else if (level === 'employee') {
         if (routePath !== 'task') {
           this.router.navigate(['access-denied']);
           return false;
         }
-      } else {
+      } 
+      else {
         this.router.navigate(['access-denied']);
         return false;
       }

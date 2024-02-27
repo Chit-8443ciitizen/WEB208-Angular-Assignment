@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { Router, ActivatedRoute, NavigationEnd, Event as NavigationEvent } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,12 +9,24 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-  level!: string | null;
-  constructor(private authService: AuthService) {}
+  level: string | null = null;
+  activeRoute: string = '';
+  isAdmin: boolean = true;
+
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
+
   ngOnInit(): void {
-    this.authService.huyit.subscribe((level) => {
+    this.authService.level.subscribe((level) => {
       this.level = level;
+      // localStorage.setItem('level', level || "");
     });
+
     this.level = this.authService.getLevel();
+    console.log(this.level);
+    
+    this.checkAdmin(this.level || "");
+  }
+  checkAdmin(level: string): void {
+    this.isAdmin = (level === 'admin');
   }
 }

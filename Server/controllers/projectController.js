@@ -2,10 +2,18 @@ const Project = require("../models/Project");
 const Task = require("../models/Task");
 
 exports.addProject = (req, res, next) => {
-  const { nameProject, teamSize, dateOfStart, budget, status, expense } =
-    req.body;
+  const {
+    nameProject,
+    nameLeader,
+    teamSize,
+    dateOfStart,
+    budget,
+    status,
+    expense,
+  } = req.body;
   if (
     nameProject == "" ||
+    nameLeader == "" ||
     teamSize == "" ||
     dateOfStart == "" ||
     budget == "" ||
@@ -16,6 +24,7 @@ exports.addProject = (req, res, next) => {
   } else {
     const project = new Project({
       nameProject,
+      nameLeader,
       teamSize,
       dateOfStart,
       budget,
@@ -41,30 +50,10 @@ exports.addProject = (req, res, next) => {
   }
 };
 
-// exports.getProjects = async (req, res, next) => {
-//   const selectedValue = req.query.huydev;
-//   // console.log(selectedValue);
-//   let huydev;
-
-//   if (selectedValue) {
-//     huydev = await Task.findOne({ idProject: selectedValue }).populate([
-//       {
-//         path: "idProject",
-//       },
-//       {
-//         path: "assignedTo",
-//       },
-//     ]);
-//   } else {
-//     huydev = await Project.find({});
-//   }
-
-//   res.status(200).json(huydev);
-// };
 
 exports.getProjects = async (req, res, next) => {
-  if (req.query.huydev) {
-    const selectedValue = req.query.huydev;
+  if (req.query.project) {
+    const selectedValue = req.query.project;
     const projectTasks = await Task.findOne({
       idProject: selectedValue,
     }).populate([
@@ -143,8 +132,8 @@ exports.getProjects = async (req, res, next) => {
       res.status(500).json({ message: "Internal Server Error" });
     }
   } else {
-    const huydev = await Project.find({});
-    res.status(200).json(huydev);
+    const project = await Project.find({});
+    res.status(200).json(project);
   }
 };
 
@@ -160,18 +149,19 @@ exports.getIdProject = async (req, res, next) => {
 
 exports.putProject = async (req, res, next) => {
   const _id = req.params.id;
-  const { nameProject, teamSize, dateOfStart, budget, status, expense } =
+  const { nameProject, nameLeader, teamSize, dateOfStart, budget, status, expense } =
     req.body;
   Project.findById(_id)
-    .then((huyit) => {
-      huyit.nameProject = nameProject;
-      huyit.teamSize = teamSize;
-      huyit.dateOfStart = dateOfStart;
-      huyit.budget = budget;
-      huyit.status = status;
-      huyit.expense = expense;
+    .then((project) => {
+      project.nameProject = nameProject;
+      project.nameLeader = nameLeader;
+      project.teamSize = teamSize;
+      project.dateOfStart = dateOfStart;
+      project.budget = budget;
+      project.status = status;
+      project.expense = expense;
 
-      return huyit.save();
+      return project.save();
     })
     .then((result) => {
       res.status(200).json({

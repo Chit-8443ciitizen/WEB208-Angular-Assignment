@@ -26,7 +26,8 @@ export class LoginComponent {
   loginUser() {
     this.isLoading = true;
     const userData = { username: this.username, password: this.password };
-    console.log(userData.username + userData.password);
+    // console.log(userData.username + userData.password);
+    
     this.authService.login(userData).pipe(
       switchMap(response => {
         if (response.status === true) {
@@ -68,7 +69,9 @@ export class LoginComponent {
       this.router.navigateByUrl('/task');
     } else if (level === 'leader') {
       this.router.navigateByUrl('/');
-    } else {
+    } else if (level === 'admin') {
+      this.router.navigateByUrl('/');
+    }else {
       this.router.navigate(['access-denied']);
     }
   }

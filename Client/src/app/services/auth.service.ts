@@ -27,7 +27,7 @@ export class AuthService {
 
   //  load khi vô nó hiển thị luôn
 
-  huyit = this.levelSubject.asObservable();
+  level = this.levelSubject.asObservable();
   getLevel(): string | null {
     return this.levelSubject.getValue();
   }

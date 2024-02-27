@@ -19,7 +19,7 @@ const postSchema = new Schema(
     },
     level: {
       type: String,
-      enum: ["leader", "employee"],
+      enum: ["admin", "leader", "employee"],
       default: "employee",
     },
     status: {

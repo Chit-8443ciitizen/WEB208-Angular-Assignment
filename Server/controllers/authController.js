@@ -10,11 +10,15 @@ exports.register = async (req, res, next) => {
       .json({ status: false, message: "Vui lòng nhập đầy đủ thông tin" });
   } else {
     try {
-      const user = await User.findOne({ email });
-      if (user) {
+      if (await User.findOne({ email })) {
         return res
           .status(200)
           .json({ status: false, message: "Email đã được đăng ký trước đó" });
+      };
+      if (await User.findOne({ username })) {
+        return res
+          .status(200)
+          .json({ status: false, message: "Username đã được đăng ký trước đó" });
       }
 
       const hashedPassword = bcrypt.hashSync(password, 10);

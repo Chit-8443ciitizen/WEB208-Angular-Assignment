@@ -13,11 +13,14 @@ const postSchema = new Schema(
       required: true,
     },
     idProject: { type: mongoose.Schema.Types.ObjectId, ref: "Projects" },
+
     priority: {
       type: String,
       required: true,
     },
+    
     assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+
     status: {
       type: String,
       required: true,

@@ -24,6 +24,11 @@ export class UserService {
     return this.http.get(`${this.baseURL}/getUserId/${username}`, { headers });
   }
 
+  getUserLevel(username: string): Observable<any> {
+    const headers = this.apiAccessTokenService.createAuthHeader();
+    return this.http.get(`${this.baseURL}/getUserLevel/${username}`, { headers });
+  }
+
   getUserPage(page: number, limit: number): Observable<any> {
     const headers = this.apiAccessTokenService.createAuthHeader();
     return this.http.get(

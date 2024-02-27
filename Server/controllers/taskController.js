@@ -121,14 +121,14 @@ exports.putTask = async (req, res, next) => {
   const { taskName, description, idProject, priority, assignedTo, status } =
     req.body;
   Task.findById(_id)
-    .then((huyit) => {
-      huyit.taskName = taskName;
-      huyit.description = description;
-      huyit.idProject = idProject;
-      huyit.priority = priority;
-      huyit.assignedTo = assignedTo;
-      huyit.status = status;
-      return huyit.save();
+    .then((task) => {
+      task.taskName = taskName;
+      task.description = description;
+      task.idProject = idProject;
+      task.priority = priority;
+      task.assignedTo = assignedTo;
+      task.status = status;
+      return task.save();
     })
     .then((result) => {
       res.status(200).json({

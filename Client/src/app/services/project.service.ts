@@ -34,7 +34,7 @@ export class ProjectService {
 
   getSelect(selectedValue: any): Observable<any> {
     const headers = this.apiAccessTokenService.createAuthHeader();
-    const params = { huydev: selectedValue };
+    const params = { project: selectedValue };
     return this.http.get(`${this.baseURL}/getProjects`, { headers, params });
   }
 

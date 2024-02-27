@@ -8,21 +8,23 @@
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group ml-2">
+          <!-- <div class="btn-group ml-2">
             <button type="button" class="btn btn-outline-secondary">
               Share
             </button>
             <button type="button" class="btn btn-outline-secondary">
               Export
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="row bg-secondary bg-gradient mt-4 px-2 py-3">
         <div class="col-md-3 col-sm-6 text-center">
-          <h6 class="text-white">TRƯỞNG NHÓM</h6>
+          <h5 class="text-white text-uppercase">{{level}}</h5>
           <img class="rounded-circle w-25" [src]="'https://ui-avatars.com/api/name=' + username" alt="" />
           <p class="fw-bold text-white pt-2">{{username}}</p>
+
+          <h6 class="text-white py-2 mt-2 text-uppercase">Thông tin tất cả các dự án</h6>
           <div *ngIf="loading" class="text-center">
             <div class="spinner-border text-light" role="status">
               <span class="sr-only">Loading...</span>
@@ -30,47 +32,40 @@
           </div>
           <div *ngIf="!loading">
             <ul class="list-group">
-              <h6 class="text-white py-2">
-                # Thông Tin Dự Án [
-                <span class="text-info" *ngIf="
-                    listIDProject &&
-                    listIDProject.projectTasks.idProject.nameProject !==
-                      undefined
-                  ">{{ listIDProject.projectTasks.idProject.nameProject }}</span>
-                ]
-              </h6>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                Số Lượng Thành Viên Dự Án
-                <span class="badge bg-primary  text-white" *ngIf="
-                    listIDProject && listIDProject.totalUsers !== undefined
-                  ">
-                  {{ listIDProject.totalUsers }}
+                Số lượng thành viên
+                <span class="badge bg-primary text-white">
+                  {{ totalAllUsers }}
                 </span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                Tổng Chi Phí Của Dự Án
-                <span class="badge bg-primary  text-white" *ngIf="listIDProject && listIDProject.projectTasks">
-                  {{ listIDProject.projectTasks.idProject.budget | currency }}
+                Tổng chi phí 
+                <span class="badge bg-primary  text-white">
+                  {{ totalReducerProject | currency }}
                 </span>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center"
-                *ngIf="listIDProject && listIDProject.processingTasks">
-                Các Task Đang Xử Lý Dự Án
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Số task đang xử lý
                 <span class="badge bg-primary  text-white">{{
-                  listIDProject.processingTasks
+                  lengthTaskProcessing
                   }}</span>
               </li>
-
-              <li class="list-group-item d-flex justify-content-between align-items-center"
-                *ngIf="listIDProject && listIDProject.processingTasks">
-                Các Task Đã Hoàn Thành Dự Án
-                <span class="badge bg-primary  text-white" *ngIf="
-                    listIDProject && listIDProject.completeTasks !== undefined
-                  ">{{ listIDProject.completeTasks }}</span>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Số dự án đang triển khai
+                <span class="badge bg-primary  text-white">{{
+                  lengthProjectDeployment
+                  }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Số dự án hoàn thành
+                <span class="badge bg-primary  text-white">{{
+                  lengthProjectComplete
+                  }}</span>
               </li>
             </ul>
           </div>
-          <p class="mt-3 text-white fw-bold">KHÁCH HÀNG</p>
+
+          <p class="mt-3 text-white fw-bold">TẤT CẢ KHÁCH HÀNG</p>
           <ul class="list-group">
             <li class="list-group-item">ABC Cake Ltd.</li>
             <li class="list-group-item">DEF Software Solutio</li>
@@ -86,7 +81,7 @@
               </option>
             </select>
 
-            <select class="form-control w-auto" aria-label="Default select example">
+            <select class="form-control w-auto" aria-label="Default select example" (change)="onProjectChange($event)">
               <option *ngFor="let project of listAllProjects" value="{{ project._id }}">
                 {{ project.dateOfStart }}
               </option>
@@ -104,45 +99,25 @@
               </div>
               <div *ngIf="!loading">
                 <table class="table caption-top">
-                  <tbody>
-                    <tr>
-                      <td>Chi Phí Dự Án</td>
-                      <td *ngIf="
-                          listIDProject &&
-                          listIDProject.projectTasks !== undefined
-                        ">
-                        {{
-                        listIDProject.projectTasks.idProject.budget | currency
-                        }}
+                  <tbody class="border-0">
+                    <tr class="border-0">
+                      <td class="border-0">Chi Phí Dự Án</td>
+                      <td class="border-0" *ngIf=" currentProject && currentProject!== undefined ">
+                        {{ currentProject.budget | currency}}
                       </td>
                     </tr>
                     <tr>
-                      <td>Hiện Tại Đã Chi</td>
-                      <td *ngIf="
-                          listIDProject &&
-                          listIDProject.projectTasks !== undefined
-                        ">
-                        {{
-                        listIDProject.projectTasks.idProject.expense
-                        | currency
-                        }}
+                      <td class="border-0">Hiện Tại Đã Chi</td>
+                      <td class="border-0" *ngIf=" currentProject && currentProject!== undefined ">
+                        {{  currentProject.expense | currency }}
                       </td>
                     </tr>
                     <tr>
-                      <td>Còn Lại</td>
-                      <td *ngIf="
-                          listIDProject &&
-                          listIDProject.projectTasks &&
-                          listIDProject.projectTasks.idProject.budget !==
-                            undefined &&
-                          listIDProject.projectTasks.idProject.expense !==
-                            undefined
-                        ">
-                        {{
-                        listIDProject.projectTasks.idProject.budget -
-                        listIDProject.projectTasks.idProject.expense
-                        | currency
-                        }}
+                      <td class="border-0">Còn Lại</td>
+                      <td class="border-0" *ngIf="currentProject && currentProject!== undefined && 
+                      currentProject.budget !== undefined &&
+                      currentProject.expense !== undefined">
+                        {{ currentProject.budget - currentProject.expense | currency }}
                       </td>
                     </tr>
                   </tbody>
@@ -151,7 +126,7 @@
             </div>
             <div class="mb-5">
               <h6 class="text-center bg-gradient bg-dark text-white py-2">
-                THÀNH VIÊN CỦA NHÓM
+                THÔNG TIN TẤT CẢ THÀNH VIÊN 
               </h6>
 
               <div *ngIf="loading" class="text-center">
@@ -165,8 +140,8 @@
                   <thead>
                     <tr>
                       <th scope="col">Khu vực</th>
-                      <th scope="col">Số lượng nhân viên</th>
-                      <th scope="col">Nhân viên tạm nghỉ</th>
+                      <th scope="col">Số lượng thành viên</th>
+                      <th scope="col">Thành viên tạm nghỉ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -182,10 +157,11 @@
           </div>
         </div>
         <div class="col-md-3 col-sm-6">
+          <h6 class="text-center  bg-gradient text-white py-2 mt-5">
+            THÀNH VIÊN THEO KHU VỰC
+          </h6>
           <div class="bg-light">
-            <h6 class="text-center bg-dark bg-gradient text-white py-2">
-              THÀNH VIÊN THEO KHU VỰC
-            </h6>
+            
             <div *ngIf="loading" class="text-center">
               <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
@@ -200,15 +176,15 @@
                       East
                     </button>
                   </div>
-                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                    <div>
+                  <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">
+                    <div> <!-- show -->
                       <table class="table-area">
                         <tbody>
                           <ng-container *ngIf="
-                              filterMembersEast && filterMembersEast.length > 0;
+                              filterEmployeesEast && filterEmployeesEast.length > 0;
                               else noData
                             ">
-                            <tr *ngFor="let user of filterMembersEast">
+                            <tr *ngFor="let user of filterEmployeesEast">
                               <th class="bg-info text-center text-white px-2">#</th>
                               <td>{{ user.username }}</td>
                             </tr>
@@ -235,10 +211,10 @@
                       <table class="table-area">
                         <tbody>
                           <ng-container *ngIf="
-                              filterMembersWest && filterMembersWest.length > 0;
+                              filterEmployeesWest && filterEmployeesWest.length > 0;
                               else noData
                             ">
-                            <tr *ngFor="let user of filterMembersWest">
+                            <tr *ngFor="let user of filterEmployeesWest">
                               <th class="bg-info text-center text-white px-2">#</th>
                               <td>{{ user.username }}</td>
                             </tr>
@@ -265,11 +241,11 @@
                       <table class="table-area">
                         <tbody>
                           <ng-container *ngIf="
-                              filterMembersSouth &&
-                                filterMembersSouth.length > 0;
+                              filterEmployeesSouth &&
+                                filterEmployeesSouth.length > 0;
                               else noData
                             ">
-                            <tr *ngFor="let user of filterMembersSouth">
+                            <tr *ngFor="let user of filterEmployeesSouth">
                               <th class="bg-info text-center text-white px-2">#</th>
                               <td>{{ user.username }}</td>
                             </tr>
@@ -296,11 +272,11 @@
                       <table class="table-area">
                         <tbody>
                           <ng-container *ngIf="
-                              filterMembersNorth &&
-                                filterMembersNorth.length > 0;
+                              filterEmployeesNorth &&
+                                filterEmployeesNorth.length > 0;
                               else noData
                             ">
-                            <tr *ngFor="let user of filterMembersNorth">
+                            <tr *ngFor="let user of filterEmployeesNorth">
                               <th class="bg-info text-center text-white px-2">#</th>
                               <td>{{ user.username }}</td>
                             </tr>
@@ -319,7 +295,8 @@
             </div>
           </div>
 
-          <h6 class="text-white py-2 mt-2"># Thông Tin Tất Cả Các Dự Án</h6>
+
+
           <div *ngIf="loading" class="text-center">
             <div class="spinner-border text-light" role="status">
               <span class="sr-only">Loading...</span>
@@ -327,29 +304,44 @@
           </div>
           <div *ngIf="!loading">
             <ul class="list-group">
+              <h6 class="text-white py-2">
+                Thông Tin Dự Án
+                [
+                <span class="text-info" *ngIf="
+                    currentProject &&
+                    currentProject.nameProject !==
+                      undefined
+                  ">{{ currentProject.nameProject }}</span>
+                ]
+              </h6>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                Tổng Số Lượng Thành Viên
-                <span class="badge bg-primary text-white">
-                  {{ totalAllUsers }}
+                Số lượng thành viên 
+                <span class="badge bg-primary  text-white" *ngIf="
+                    currentProject && currentProject.totalUsers !== undefined
+                  ">
+                  {{ currentProject.totalUsers }}
                 </span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                Tổng Chi Phí Của Dự Án
-                <span class="badge bg-primary  text-white">
-                  {{ totalReducerProject | currency }}
+                Số chi phí 
+                <span class="badge bg-primary  text-white" *ngIf="listIDProject && listIDProject.projectTasks">
+                  {{ listIDProject.projectTasks.idProject.budget | currency }}
                 </span>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Các Task Đang Xử Lý
+              <li class="list-group-item d-flex justify-content-between align-items-center"
+                *ngIf="listIDProject && listIDProject.processingTasks">
+                Các Task Đang Xử Lý Dự Án
                 <span class="badge bg-primary  text-white">{{
-                  lengthTaskProcessing
+                  listIDProject.processingTasks
                   }}</span>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                Các Dự Án Đang Triển Khai
-                <span class="badge bg-primary  text-white">{{
-                  lengthProjectDeployment
-                  }}</span>
+
+              <li class="list-group-item d-flex justify-content-between align-items-center"
+                *ngIf="listIDProject && listIDProject.processingTasks">
+                Các Task Đã Hoàn Thành Dự Án
+                <span class="badge bg-primary  text-white" *ngIf="
+                    listIDProject && listIDProject.completeTasks !== undefined
+                  ">{{ listIDProject.completeTasks }}</span>
               </li>
             </ul>
           </div>

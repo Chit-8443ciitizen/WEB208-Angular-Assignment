@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../services/project.service';
+import { UserService } from '../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-project',
@@ -10,6 +12,8 @@ import { environment } from 'src/environments/environment';
 })
 export class ProjectComponent implements OnInit {
   projects: any;
+  leaders : any;
+  projectEmployees : any;
 
   currentPage: number = 1;
   totalPages: number = 0;
@@ -17,6 +21,7 @@ export class ProjectComponent implements OnInit {
   totalPagesArray: any;
 
   nameProject: string = '';
+  nameLeader: string = '';
   teamSize: string = '';
   dateOfStart: string = '';
   budget: string = '';
@@ -25,17 +30,21 @@ export class ProjectComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
     this.getProjects();
+    this.getLeaders();
+    
   }
 
   saveProject(create: boolean, edit: boolean, project: any) {
     if (create) {
       const data = {
         nameProject: this.nameProject,
+        nameLeader: this.nameLeader,
         teamSize: this.teamSize,
         dateOfStart: this.dateOfStart,
         budget: this.budget,
@@ -55,6 +64,7 @@ export class ProjectComponent implements OnInit {
     } else if (edit && project) {
       const data = {
         nameProject: project.nameProject,
+        nameLeader: project.nameLeader,
         teamSize: project.teamSize,
         dateOfStart: project.dateOfStart,
         budget: project.budget,
@@ -96,7 +106,7 @@ export class ProjectComponent implements OnInit {
   getProjects(page: number = environment.pagination.page, limit: number = environment.pagination.limit) {
     this.projectService.getProjectPage(page, limit).subscribe(
       (response) => {
-        console.log(response);
+        console.log(response.projects);
         this.projects = response.projects;
         this.currentPage = response.currentPage;
         this.totalPages = response.totalPages;
@@ -113,8 +123,22 @@ export class ProjectComponent implements OnInit {
     );
   }
 
+  getLeaders() {
+    this.userService.get().subscribe(
+      (response) => {
+        this.leaders = response.filter((leader: any)=> leader.level === "leader");
+        console.log(this.leaders);
+        // this.projectEmployees = this.leaders.filter((leader:any) => leader._id ==="")
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   clearForm() {
     this.nameProject = '';
+    this.nameLeader = '';
     this.teamSize = '';
     this.dateOfStart = '';
     this.budget = '';

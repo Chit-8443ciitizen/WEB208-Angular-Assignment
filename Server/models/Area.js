@@ -8,6 +8,10 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    createdAt: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

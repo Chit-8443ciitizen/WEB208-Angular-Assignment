@@ -8,6 +8,8 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    nameLeader: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+    
     teamSize: {
       type: String,
       required: true,
@@ -27,7 +29,7 @@ const postSchema = new Schema(
     expense: {
       type: String,
       required: true,
-    }
+    },
   },
   {
     timestamps: true,

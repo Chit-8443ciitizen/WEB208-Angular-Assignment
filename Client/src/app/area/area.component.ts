@@ -48,12 +48,22 @@ export class AreaComponent implements OnInit {
   }
 
   saveArea(create: boolean, area: any) {
-    const data = {
-      nameArea: this.nameArea,
-      createdAt: this.createdAt
-    };
-  
-    const serviceCall = create ? this.areaService.add(data) : this.areaService.update(area._id, data);
+    let serviceCall;
+    if (create) {
+      const data = {
+        nameArea: this.nameArea,
+        createdAt: this.createdAt
+      };
+      console.log(data.nameArea + data.createdAt+"-create");
+      serviceCall = this.areaService.add(data);
+    } else {
+      const data = {
+        nameArea: this.nameArea,
+        createdAt: this.createdAt
+      };
+      console.log(data.nameArea + data.createdAt+"-update");
+      serviceCall = this.areaService.update(area._id, data);
+    }
   
     serviceCall.subscribe(
       (response: any) => {

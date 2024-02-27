@@ -5,6 +5,7 @@ import { TaskService } from '../services/task.service';
 import { AuthService } from '../services/auth.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../services/user.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-task',
@@ -14,7 +15,7 @@ import { UserService } from '../services/user.service';
 export class TaskComponent implements OnInit {
   projects: any;
   tasks: any;
-  users: any;
+  users : any;
 
   level!: string | null;
 
@@ -30,6 +31,8 @@ export class TaskComponent implements OnInit {
   priority: string = '';
   status: string = '';
 
+  isAdmin: boolean = false ;
+
   constructor(
     private projectService: ProjectService,
     private taskService: TaskService,
@@ -43,7 +46,7 @@ export class TaskComponent implements OnInit {
     // this.level = level;
     this.getTask();
     this.getProjects();
-    this.getUsers();
+    this.getEmployees();
     this.getTask();
   }
 
@@ -57,14 +60,17 @@ export class TaskComponent implements OnInit {
       }
     );
   }
-
+  checkAdmin(level: string): void {
+    this.isAdmin = (level === 'admin');
+  }
   getTask(
     page: number = environment.pagination.page,
     limit: number = environment.pagination.limit
   ) {
     const level = localStorage.getItem('level');
     this.level = level;
-    if (level === 'leader') {
+    if (level === 'leader' || level === 'admin') {
+      this.checkAdmin(level);
       this.taskService.getTaskPage(page, limit).subscribe(
         (response) => {
           this.tasks = response.tasks;
@@ -83,6 +89,9 @@ export class TaskComponent implements OnInit {
           console.log(error);
         }
       );
+      if (level === 'leader'){
+
+      }
     } else {
       const username = localStorage.getItem('username');
       if (username) {
@@ -121,15 +130,15 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  getUsers() {
-    this.authService.getUsers().subscribe(
-      (response) => {
-        this.users = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  getEmployees() {
+      this.userService.get().subscribe(
+        (response) => {
+          this.users = response.filter((user: any)=> user.level === "employee");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   saveTask(create: boolean, edit: boolean, task: any) {

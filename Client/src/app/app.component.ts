@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiAccessTokenService } from './helper/api-access-token.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +8,19 @@ import { ApiAccessTokenService } from './helper/api-access-token.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'HuyDev';
-  constructor(private apiAccessTokenService: ApiAccessTokenService) {}
+  title = 'QLDA';
+  level: string = "";
+  constructor(private apiAccessTokenService: ApiAccessTokenService, private authService: AuthService) {}
 
   ngOnInit() {
     // Gọi hàm refreshToken khi ứng dụng khởi chạy hoặc sau mỗi lần hết hạn AccessToken
+    // this.authService.level.subscribe((level) => {
+    //   this.level = level || "";
+    //   // console.log(this.level);
+    // });
+    // this.level = this.authService.getLevel() || "";
+    console.log(localStorage.getItem('level'));
+    console.log(localStorage.getItem('username'));
     this.refreshToken();
   }
 

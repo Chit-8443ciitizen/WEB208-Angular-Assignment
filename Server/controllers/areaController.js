@@ -1,50 +1,35 @@
 const Area = require("../models/Area");
 
-// exports.addArea = (req, res, next) => {
-//   const { nameArea, createdAt } = req.body;
-//   if (nameArea == "" && createdAt == "") {
-//     res.status(200).json({ status: false, message: "Không Được Để Trống" });
-//   } else {
-//     const area = new Area({
-//       nameArea, createdAt
-//     });
-//     area
-//       .save()
-//       .then((result) => {
-//         res.status(201).json({
-//           status: true,
-//           message: "Thêm Area Thành Công",
-//         });
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }
-// };
-
 exports.addArea = (req, res, next) => {
-  const { nameArea} = req.body; // , createdAt 
+  const { nameArea, createdAt } = req.body; //
+  console.log(nameArea + createdAt); // Kiểm tra dữ liệu được nhận từ frontend
 
-  if (nameArea === "" ) { // && createdAt === ""
-    res.status(200).json({ status: false, message: "Không Được Để Trống" });
-  } else {
-    const area = new Area({
-      nameArea,
-      // createdAt
-    });
-    area
-      .save()
-      .then((result) => {
-        res.status(201).json({
-          status: true,
-          message: "Thêm Area Thành Công",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  if (!nameArea || !createdAt) {
+    return res.status(400).json({ status: false, message: "Vui lòng cung cấp đầy đủ thông tin" });
   }
+
+  const area = new Area({
+    nameArea,
+    createdAt
+  });
+
+  area.save()
+    .then((savedArea) => { // Thêm savedArea vào hàm then để truy cập vào khu vực đã lưu
+      if (!savedArea) {
+        return res.status(500).json({ status: false, message: "Không thể lưu khu vực vào cơ sở dữ liệu" });
+      }
+      res.status(201).json({
+        status: true,
+        message: "Thêm Area Thành Công",
+        area: savedArea // Trả về khu vực đã được lưu
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ status: false, message: "Lỗi trong quá trình thêm Area" });
+    });
 };
+
 
 exports.getAreas = async (req, res, next) => {
   if (req.query.page && req.query.limit) {

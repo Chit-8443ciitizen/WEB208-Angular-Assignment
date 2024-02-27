@@ -1,18 +1,43 @@
-<nav
-  id="sidebarMenu"
-  class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
->
-  <div class="sidebar-sticky pt-3" *ngIf="level === 'leader'">
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+
+  <div class="sidebar-sticky pt-3" *ngIf="level === 'admin'">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link active" href="/">
+        <a class="nav-link " href="/">
           <span data-feather="home"></span>
-          Dashboard
+          Dashboard admin
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link" href="/project">
+          <span data-feather="shopping-cart"></span>
+          Projects
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/task"> Task </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users"> Users </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/areas"> Areas </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar-sticky pt-3" *ngIf="level === 'leader'">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link " href="/">
+          <span data-feather="home"></span>
+          Dashboard {{level}}
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a *ngIf="isAdmin" class="nav-link" href="/project">
           <span data-feather="shopping-cart"></span>
           Project
         </a>
