@@ -1,0 +1,12 @@
+{
+  "name": "web208-angular-assignment",
+  "version": "1.0.0",
+  "description": "npm start\r port: http://localhost:4200/login\r account: \r -admin( \"admin\" - pass \"1\");\r -leader( \"leader\" - pass \"1\");  \r -employee( \"employee\" - pass \"1\");",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd client npm start  | cd server npm start "
+  },
+  "author": "",
+  "license": "ISC"
+}

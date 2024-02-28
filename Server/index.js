@@ -26,6 +26,42 @@ mongoose // MongoDB connection
   .then(() => {
     console.log("MongoDB is ready");
 
+    app.get('/backup', async (req, res) => {
+      // Tạo một tệp để lưu trữ dữ liệu backup
+      const backupFile = 'backup.json';
+
+      // Lấy tất cả các collection trong cơ sở dữ liệu
+      mongoose.connection.db.collections(async function (err, collections) {
+        if (err) {
+          console.error("Error getting collections:", err);
+          res.status(500).send('Error getting collections');
+          return;
+        }
+
+        const data = {};
+
+        // Lặp qua từng collection để lấy dữ liệu
+        for (let collection of collections) {
+          const docs = await collection.find({}).toArray();
+          data[collection.collectionName] = docs;
+        }
+
+        // Lưu dữ liệu vào tệp JSON
+        fs.writeFileSync(backupFile, JSON.stringify(data, null, 2));
+        console.log(`Backup successful. Data saved to ${backupFile}`);
+
+        // Gửi thông báo và cho phép tải xuống tệp backup.json
+        res.download(backupFile, 'backup.json', (err) => {
+          if (err) {
+            console.error('Error downloading file:', err);
+            res.status(500).send('Error downloading file');
+          } else {
+            console.log('Backup file sent successfully');
+          }
+        });
+      });
+    });
+    
     app.listen(port, () => {
       console.log(`Server is running on port: http://localhost:${port}/`);
       // if(!showAllDatabase()){

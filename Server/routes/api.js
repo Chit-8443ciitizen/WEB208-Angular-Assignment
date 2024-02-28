@@ -6,10 +6,10 @@ const taskController = require("../controllers/taskController");
 const areaController = require("../controllers/areaController");
 const verifyAccessToken = require("../middleware/verifyAcessToken");
 const userController = require("../controllers/userController");
+const backupController = require("../controllers/backupController");
 
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-// router.post("", authController.login);
 
 router.post("/addProject", verifyAccessToken, projectController.addProject);
 router.get("/getProjects", verifyAccessToken, projectController.getProjects);
@@ -50,6 +50,7 @@ router.put("/updateUser/:id", verifyAccessToken, userController.updateUser);
 router.get("/getUserId/:username", verifyAccessToken, userController.getUserId);
 router.get("/getUserLevel/:username", verifyAccessToken, userController.getUserLevel);
 router.delete("/deleteUser/:id", verifyAccessToken, userController.deleteUser);
-// router.get("/getUserbyUsername/:username", verifyAccessToken, userController.getUserbyUsername);
+
+// router.get("/getBackup", backupController.backupData);
 
 module.exports = router;
